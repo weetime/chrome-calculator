@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Scientific Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="calculator">
+    <div class="display">
+      <input type="text" id="result" disabled>
+    </div>
+    <div class="buttons">
+      <div class="row">
+        <button class="function-btn" data-value="sin">sin</button>
+        <button class="function-btn" data-value="cos">cos</button>
+        <button class="function-btn" data-value="tan">tan</button>
+        <button class="function-btn" data-value="log">log</button>
+      </div>
+      <div class="row">
+        <button class="function-btn" data-value="sqrt">√</button>
+        <button class="function-btn" data-value="power">x<sup>y</sup></button>
+        <button class="function-btn" data-value="(">(</button>
+        <button class="function-btn" data-value=")">)</button>
+      </div>
+      <div class="row">
+        <button class="num-btn" data-value="7">7</button>
+        <button class="num-btn" data-value="8">8</button>
+        <button class="num-btn" data-value="9">9</button>
+        <button class="operation-btn" data-value="/">÷</button>
+      </div>
+      <div class="row">
+        <button class="num-btn" data-value="4">4</button>
+        <button class="num-btn" data-value="5">5</button>
+        <button class="num-btn" data-value="6">6</button>
+        <button class="operation-btn" data-value="*">×</button>
+      </div>
+      <div class="row">
+        <button class="num-btn" data-value="1">1</button>
+        <button class="num-btn" data-value="2">2</button>
+        <button class="num-btn" data-value="3">3</button>
+        <button class="operation-btn" data-value="-">-</button>
+      </div>
+      <div class="row">
+        <button class="num-btn" data-value="0">0</button>
+        <button class="num-btn" data-value=".">.</button>
+        <button class="function-btn" data-value="clear">C</button>
+        <button class="operation-btn" data-value="+">+</button>
+      </div>
+      <div class="row">
+        <button class="function-btn" data-value="pi">π</button>
+        <button class="function-btn" data-value="e">e</button>
+        <button class="function-btn" data-value="rad_deg">Rad|Deg</button>
+        <button class="equals-btn" data-value="equals">=</button>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html> 
