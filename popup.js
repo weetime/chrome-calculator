@@ -381,65 +381,25 @@ function handleKeyPress(e) {
 function appendToDisplay(value) {
   const display = document.getElementById('result');
   
-  // 获取当前光标位置
+  // 确保光标位置正常工作
   const cursorPos = display.selectionStart;
-  const selectionEnd = display.selectionEnd;
+  const currentValue = display.value;
   
-  // 如果有文本被选中，则替换选中的文本
-  if (cursorPos !== selectionEnd) {
-    const text = display.value;
-    let newValue;
-    
-    // 特殊常量处理
-    if (value === 'pi') {
-      newValue = text.substring(0, cursorPos) + 'π' + text.substring(selectionEnd);
-      // 设置新的光标位置
-      const newCursorPos = cursorPos + 1;
-      display.value = newValue;
-      display.selectionStart = display.selectionEnd = newCursorPos;
-    } 
-    else if (value === 'e') {
-      newValue = text.substring(0, cursorPos) + 'e' + text.substring(selectionEnd);
-      // 设置新的光标位置
-      const newCursorPos = cursorPos + 1;
-      display.value = newValue;
-      display.selectionStart = display.selectionEnd = newCursorPos;
-    } 
-    else {
-      newValue = text.substring(0, cursorPos) + value + text.substring(selectionEnd);
-      // 设置新的光标位置
-      const newCursorPos = cursorPos + value.length;
-      display.value = newValue;
-      display.selectionStart = display.selectionEnd = newCursorPos;
-    }
-  } 
+  // 对于常量按钮，特殊处理
+  if (value === 'pi') {
+    // 在光标位置插入π
+    display.value = currentValue.substring(0, cursorPos) + 'π' + currentValue.substring(cursorPos);
+    display.selectionStart = display.selectionEnd = cursorPos + 1;
+  }
+  else if (value === 'e') {
+    // 在光标位置插入e
+    display.value = currentValue.substring(0, cursorPos) + 'e' + currentValue.substring(cursorPos);
+    display.selectionStart = display.selectionEnd = cursorPos + 1;
+  }
   else {
-    // 如果没有选中文本，在光标位置插入
-    const text = display.value;
-    let newValue;
-    
-    // 特殊常量处理
-    if (value === 'pi') {
-      newValue = text.substring(0, cursorPos) + 'π' + text.substring(cursorPos);
-      // 设置新的光标位置
-      const newCursorPos = cursorPos + 1;
-      display.value = newValue;
-      display.selectionStart = display.selectionEnd = newCursorPos;
-    } 
-    else if (value === 'e') {
-      newValue = text.substring(0, cursorPos) + 'e' + text.substring(cursorPos);
-      // 设置新的光标位置
-      const newCursorPos = cursorPos + 1;
-      display.value = newValue;
-      display.selectionStart = display.selectionEnd = newCursorPos;
-    } 
-    else {
-      newValue = text.substring(0, cursorPos) + value + text.substring(cursorPos);
-      // 设置新的光标位置
-      const newCursorPos = cursorPos + value.length;
-      display.value = newValue;
-      display.selectionStart = display.selectionEnd = newCursorPos;
-    }
+    // 在光标位置插入普通值
+    display.value = currentValue.substring(0, cursorPos) + value + currentValue.substring(cursorPos);
+    display.selectionStart = display.selectionEnd = cursorPos + value.length;
   }
   
   // 添加内容后让输入框获得焦点
@@ -459,10 +419,6 @@ function calculate() {
   
   try {
     let expression = display.value;
-    
-    // 替换特殊字符
-    expression = expression.replace(/π/g, 'Math.PI');
-    expression = expression.replace(/e/g, 'Math.E');
     
     // 处理表达式
     const result = processExpression(expression);
@@ -509,6 +465,10 @@ function updateModeButtonText() {
 function processExpression(expression) {
   // 先处理表达式中的空格
   expression = expression.replace(/\s+/g, '');
+
+  // 替换特殊字符为数值
+  expression = expression.replace(/π/g, Math.PI.toString());
+  expression = expression.replace(/e/g, Math.E.toString());
 
   // 处理隐式乘法 如 2(3) -> 2*(3) 或 )( -> )*(
   expression = expression.replace(/(\d+\.?\d*|\))(\()/g, '$1*$2');

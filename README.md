@@ -18,7 +18,7 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
   - Implicit multiplication (e.g., 2(3+1) = 2*(3+1))
   - Keyboard input support
   - Internationalization support (English, Chinese, Spanish, French, Japanese)
-  - Multiple themes (Light, Dark, Blue, Pink, Green)
+  - Multiple themes (Light, Dark, Blue, Pink, Green, Black Flame)
 
 ## Installation
 
@@ -64,12 +64,13 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
 
 ### Themes
 
-The calculator offers five visual themes that can be selected from the help panel:
+The calculator offers six visual themes that can be selected from the help panel:
 - **Light** - Default clean light theme
 - **Dark** - Low-light dark theme
 - **Blue** - Ocean blue theme
 - **Pink** - Soft pink theme
 - **Green** - Nature green theme
+- **Black Flame** - Dark theme with orange-red flame accents
 
 ## Examples
 
@@ -89,7 +90,10 @@ The calculator offers five visual themes that can be selected from the help pane
 - `i18n.js` - Internationalization support
 - `themes.js` - Theme management and styling
 - `manifest.json` - Chrome extension configuration file
-- `icons/` - Folder containing extension icons (16px, 48px, 128px)
+- `icons/` - Folder containing:
+  - Extension icons: `icon16.png`, `icon48.png`, `icon128.png` (for browser toolbar)
+  - Theme screenshots: `light.jpg`, `blue.jpg` (showing different themes)
+  - `setting.jpg` - Screenshot of the settings/help panel
 
 ## Technical Implementation
 
@@ -102,6 +106,21 @@ The calculator offers five visual themes that can be selected from the help pane
 - Keyboard input handling for improved user experience
 - Intuitive mode switching for trigonometric functions
 - Internationalization (i18n) with support for multiple languages
+
+## Theme Screenshots
+
+The calculator comes with multiple beautiful themes:
+
+### Light Theme
+![Light Theme](./icons/light.jpg)
+
+### Blue Theme
+![Blue Theme](./icons/blue.jpg)
+
+### Settings Panel
+![Settings Panel](./icons/setting.jpg)
+
+The extension also includes a new Black Flame theme with dark background and orange-red flame accents.
 
 ## Compatibility
 
