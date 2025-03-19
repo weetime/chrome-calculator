@@ -2,13 +2,6 @@
 let isRadMode = true; // 默认使用弧度模式
 let currentLanguage = 'en'; // 默认语言为英语
 
-// DOM 元素
-const display = document.getElementById('result');
-const helpBtn = document.getElementById('helpIcon');
-const keyboardHelp = document.getElementById('keyboardHelp');
-const closeHelp = document.getElementById('closeHelp');
-const localeSelect = document.getElementById('languageSelector');
-
 // 当DOM加载完成时初始化
 document.addEventListener('DOMContentLoaded', function() {
   // DOM 元素
@@ -17,6 +10,61 @@ document.addEventListener('DOMContentLoaded', function() {
   const keyboardHelp = document.getElementById('keyboardHelp');
   const closeHelp = document.getElementById('closeHelp');
   const localeSelect = document.getElementById('languageSelector');
+  
+  // 启用输入框的编辑功能
+  display.removeAttribute('disabled');
+  display.removeAttribute('readonly'); // 完全移除readonly，以确保复制粘贴功能正常
+  
+  // 为输入框添加样式，使其看起来像只读
+  display.classList.add('editable-input');
+  
+  // 确保输入框只接受有效的输入
+  display.addEventListener('input', function(e) {
+    // 获取当前输入值和光标位置
+    const inputValue = display.value;
+    const cursorPos = display.selectionStart;
+    
+    // 我们只需简单过滤掉完全无效的字符
+    // 保留所有数字、运算符和函数名
+    let filteredValue = '';
+    
+    for (let i = 0; i < inputValue.length; i++) {
+      const char = inputValue[i];
+      // 允许数字、运算符、括号、小数点、π和e常量
+      if (/[0-9+\-*/^().πe]/.test(char) || char === ' ') {
+        filteredValue += char;
+      } 
+      // 检查是否为函数开头
+      else if (i + 2 < inputValue.length) {
+        const threeChars = inputValue.substring(i, i + 3);
+        const fourChars = inputValue.substring(i, i + 4);
+        
+        if (threeChars === 'sin' || threeChars === 'cos' || 
+            threeChars === 'tan' || threeChars === 'log') {
+          filteredValue += threeChars;
+          i += 2; // 跳过已处理的字符
+        } 
+        else if (fourChars === 'sqrt') {
+          filteredValue += 'sqrt';
+          i += 3; // 跳过已处理的字符
+        }
+      }
+    }
+    
+    // 如果有无效字符被过滤掉，更新输入值并保持光标位置
+    if (filteredValue !== inputValue) {
+      // 计算被过滤字符的数量
+      const diff = inputValue.length - filteredValue.length;
+      display.value = filteredValue;
+      display.selectionStart = display.selectionEnd = Math.max(0, cursorPos - diff);
+    }
+  });
+  
+  // 优化粘贴事件处理
+  display.addEventListener('paste', function(e) {
+    // 我们不再阻止默认粘贴行为
+    // 粘贴后的内容会通过input事件处理
+  });
   
   // 初始化国际化
   i18n.initLocale();
@@ -43,6 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
     button.addEventListener('click', function() {
       const value = this.getAttribute('data-value');
       handleButtonClick(value);
+      // 点击按钮后让输入框获得焦点，便于键盘操作
+      display.focus();
     });
   });
   
@@ -54,6 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // 关闭帮助按钮点击事件
   closeHelp.addEventListener('click', () => {
     keyboardHelp.classList.remove('show');
+    // 关闭帮助后让输入框获得焦点
+    display.focus();
   });
   
   // 语言选择器更改事件
@@ -77,6 +129,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 添加键盘事件
   document.addEventListener('keydown', handleKeyPress);
+  
+  // 计算器加载完成后使输入框获得焦点
+  display.focus();
 });
 
 // 更新界面所有文本
@@ -151,30 +206,41 @@ function handleButtonClick(value) {
 // 处理键盘按键
 function handleKeyPress(e) {
   const key = e.key;
+  const display = document.getElementById('result');
   
   // 如果帮助面板打开，处理ESC关闭
   if (document.getElementById('keyboardHelp').classList.contains('show')) {
     if (key === 'Escape') {
       document.getElementById('keyboardHelp').classList.remove('show');
       e.preventDefault();
+      display.focus(); // 关闭帮助面板后让输入框获取焦点
     }
     return;
   }
   
-  // 三角函数自动切换到度数模式
-  if (key === 's' || key === 'c' || key === 't') {
-    if (isRadMode) {
-      isRadMode = false;
-      updateModeButtonText();
-      localStorage.setItem('calculatorMode', 'deg');
-    }
+  // 处理复制粘贴快捷键（让它们的默认行为正常进行）
+  if ((e.ctrlKey || e.metaKey) && (key === 'c' || key === 'v' || key === 'x' || key === 'a')) {
+    // 允许默认行为（不阻止）
+    return;
+  }
+  
+  // 处理左右光标键和Home/End键
+  if (key === 'ArrowLeft' || key === 'ArrowRight' || key === 'Home' || key === 'End') {
+    // 允许默认光标移动行为
+    return;
   }
   
   // 数字和基本运算符
-  if (/[\d+\-*/^.()]/.test(key)) {
+  if (/[0-9]/.test(key)) {
+    // 添加数字
     appendToDisplay(key);
     e.preventDefault();
-  } 
+  }
+  else if (/[+\-*/^.()]/.test(key)) {
+    // 添加运算符
+    appendToDisplay(key);
+    e.preventDefault();
+  }
   // 等于号和回车键
   else if (key === '=' || key === 'Enter') {
     calculate();
@@ -186,29 +252,117 @@ function handleKeyPress(e) {
     e.preventDefault();
   } 
   // 删除键
-  else if (key === 'Backspace') {
-    backspace();
-    e.preventDefault();
+  else if (key === 'Backspace' || key === 'Delete') {
+    // 让默认行为发生
+    return;
   }
-  // 三角函数和其他功能
+  // 三角函数和其他功能，添加整个函数名，而不是单个字符
   else if (key === 's') {
-    appendToDisplay('sin(');
+    // 对于三角函数，自动切换到度数模式
+    if (isRadMode) {
+      isRadMode = false;
+      updateModeButtonText();
+      localStorage.setItem('calculatorMode', 'deg');
+    }
+    // 在当前光标位置插入完整的"sin("
+    const cursorPos = display.selectionStart;
+    const selectionEnd = display.selectionEnd;
+    const currentValue = display.value;
+    
+    // 如果有选中文本，替换它
+    if (cursorPos !== selectionEnd) {
+      display.value = currentValue.substring(0, cursorPos) + 'sin(' + currentValue.substring(selectionEnd);
+      display.selectionStart = display.selectionEnd = cursorPos + 4; // "sin(".length
+    } else {
+      // 否则在光标位置插入
+      display.value = currentValue.substring(0, cursorPos) + 'sin(' + currentValue.substring(cursorPos);
+      display.selectionStart = display.selectionEnd = cursorPos + 4; // "sin(".length
+    }
+    
     e.preventDefault();
   } 
   else if (key === 'c') {
-    appendToDisplay('cos(');
+    // 对于三角函数，自动切换到度数模式
+    if (isRadMode) {
+      isRadMode = false;
+      updateModeButtonText();
+      localStorage.setItem('calculatorMode', 'deg');
+    }
+    // 在当前光标位置插入完整的"cos("
+    const cursorPos = display.selectionStart;
+    const selectionEnd = display.selectionEnd;
+    const currentValue = display.value;
+    
+    // 如果有选中文本，替换它
+    if (cursorPos !== selectionEnd) {
+      display.value = currentValue.substring(0, cursorPos) + 'cos(' + currentValue.substring(selectionEnd);
+      display.selectionStart = display.selectionEnd = cursorPos + 4; // "cos(".length
+    } else {
+      // 否则在光标位置插入
+      display.value = currentValue.substring(0, cursorPos) + 'cos(' + currentValue.substring(cursorPos);
+      display.selectionStart = display.selectionEnd = cursorPos + 4; // "cos(".length
+    }
+    
     e.preventDefault();
   } 
   else if (key === 't') {
-    appendToDisplay('tan(');
+    // 对于三角函数，自动切换到度数模式
+    if (isRadMode) {
+      isRadMode = false;
+      updateModeButtonText();
+      localStorage.setItem('calculatorMode', 'deg');
+    }
+    // 在当前光标位置插入完整的"tan("
+    const cursorPos = display.selectionStart;
+    const selectionEnd = display.selectionEnd;
+    const currentValue = display.value;
+    
+    // 如果有选中文本，替换它
+    if (cursorPos !== selectionEnd) {
+      display.value = currentValue.substring(0, cursorPos) + 'tan(' + currentValue.substring(selectionEnd);
+      display.selectionStart = display.selectionEnd = cursorPos + 4; // "tan(".length
+    } else {
+      // 否则在光标位置插入
+      display.value = currentValue.substring(0, cursorPos) + 'tan(' + currentValue.substring(cursorPos);
+      display.selectionStart = display.selectionEnd = cursorPos + 4; // "tan(".length
+    }
+    
     e.preventDefault();
   } 
   else if (key === 'l') {
-    appendToDisplay('log(');
+    // 在当前光标位置插入完整的"log("
+    const cursorPos = display.selectionStart;
+    const selectionEnd = display.selectionEnd;
+    const currentValue = display.value;
+    
+    // 如果有选中文本，替换它
+    if (cursorPos !== selectionEnd) {
+      display.value = currentValue.substring(0, cursorPos) + 'log(' + currentValue.substring(selectionEnd);
+      display.selectionStart = display.selectionEnd = cursorPos + 4; // "log(".length
+    } else {
+      // 否则在光标位置插入
+      display.value = currentValue.substring(0, cursorPos) + 'log(' + currentValue.substring(cursorPos);
+      display.selectionStart = display.selectionEnd = cursorPos + 4; // "log(".length
+    }
+    
     e.preventDefault();
   } 
   else if (key === 'r') {
-    appendToDisplay('sqrt(');
+    // 在当前光标位置插入完整的"sqrt("
+    const cursorPos = display.selectionStart;
+    const selectionEnd = display.selectionEnd;
+    const currentValue = display.value;
+    
+    // 如果有选中文本，替换它
+    if (cursorPos !== selectionEnd) {
+      display.value = currentValue.substring(0, cursorPos) + 'sqrt(' + currentValue.substring(selectionEnd);
+      display.selectionStart = display.selectionEnd = cursorPos + 5; // "sqrt(".length
+    } else {
+      // 否则在光标位置插入
+      display.value = currentValue.substring(0, cursorPos) + 'sqrt(' + currentValue.substring(cursorPos);
+      display.selectionStart = display.selectionEnd = cursorPos + 5; // "sqrt(".length
+    }
+    
     e.preventDefault();
   } 
   else if (key === 'd') {
@@ -225,34 +379,80 @@ function handleKeyPress(e) {
   }
 }
 
-// 处理退格
-function backspace() {
-  const display = document.getElementById('result');
-  if (display.value.length > 0) {
-    display.value = display.value.slice(0, -1);
-  }
-}
-
 // 向显示屏添加内容
 function appendToDisplay(value) {
   const display = document.getElementById('result');
   
-  // 特殊常量处理
-  if (value === 'pi') {
-    display.value += 'π';
-  } 
-  else if (value === 'e') {
-    display.value += 'e';
+  // 获取当前光标位置
+  const cursorPos = display.selectionStart;
+  const selectionEnd = display.selectionEnd;
+  
+  // 如果有文本被选中，则替换选中的文本
+  if (cursorPos !== selectionEnd) {
+    const text = display.value;
+    let newValue;
+    
+    // 特殊常量处理
+    if (value === 'pi') {
+      newValue = text.substring(0, cursorPos) + 'π' + text.substring(selectionEnd);
+      // 设置新的光标位置
+      const newCursorPos = cursorPos + 1;
+      display.value = newValue;
+      display.selectionStart = display.selectionEnd = newCursorPos;
+    } 
+    else if (value === 'e') {
+      newValue = text.substring(0, cursorPos) + 'e' + text.substring(selectionEnd);
+      // 设置新的光标位置
+      const newCursorPos = cursorPos + 1;
+      display.value = newValue;
+      display.selectionStart = display.selectionEnd = newCursorPos;
+    } 
+    else {
+      newValue = text.substring(0, cursorPos) + value + text.substring(selectionEnd);
+      // 设置新的光标位置
+      const newCursorPos = cursorPos + value.length;
+      display.value = newValue;
+      display.selectionStart = display.selectionEnd = newCursorPos;
+    }
   } 
   else {
-    display.value += value;
+    // 如果没有选中文本，在光标位置插入
+    const text = display.value;
+    let newValue;
+    
+    // 特殊常量处理
+    if (value === 'pi') {
+      newValue = text.substring(0, cursorPos) + 'π' + text.substring(cursorPos);
+      // 设置新的光标位置
+      const newCursorPos = cursorPos + 1;
+      display.value = newValue;
+      display.selectionStart = display.selectionEnd = newCursorPos;
+    } 
+    else if (value === 'e') {
+      newValue = text.substring(0, cursorPos) + 'e' + text.substring(cursorPos);
+      // 设置新的光标位置
+      const newCursorPos = cursorPos + 1;
+      display.value = newValue;
+      display.selectionStart = display.selectionEnd = newCursorPos;
+    } 
+    else {
+      newValue = text.substring(0, cursorPos) + value + text.substring(cursorPos);
+      // 设置新的光标位置
+      const newCursorPos = cursorPos + value.length;
+      display.value = newValue;
+      display.selectionStart = display.selectionEnd = newCursorPos;
+    }
   }
+  
+  // 添加内容后让输入框获得焦点
+  display.focus();
 }
 
 // 清除显示屏
 function clearDisplay() {
   const display = document.getElementById('result');
   display.value = '';
+  display.focus(); // 清除后让输入框获得焦点
 }
 
 // 计算结果
@@ -270,10 +470,23 @@ function calculate() {
     const result = processExpression(expression);
     
     // 显示结果 (最多保留10位小数)
-    display.value = Number(result.toFixed(10)).toString();
+    if (!isNaN(parseFloat(result))) {
+      const parsedResult = parseFloat(result);
+      // 使用toFixed可能会有尾随零，所以先格式化，再解析回来去除不必要的零
+      const formattedResult = parsedResult.toFixed(10);
+      // 使用Number转换会自动去除尾随零
+      display.value = Number(formattedResult).toString();
+    } else {
+      // 如果结果不是一个有效的数字
+      display.value = i18n.getTranslation('error');
+    }
   } catch (error) {
+    console.error('计算错误:', error);
     display.value = i18n.getTranslation('error');
   }
+  
+  // 计算完成后让输入框保持焦点
+  display.focus();
 }
 
 // 切换弧度/角度模式
@@ -281,6 +494,9 @@ function toggleMode() {
   isRadMode = !isRadMode;
   updateModeButtonText();
   localStorage.setItem('calculatorMode', isRadMode ? 'rad' : 'deg');
+  
+  // 切换模式后让输入框保持焦点
+  document.getElementById('result').focus();
 }
 
 // 更新模式按钮文本
@@ -293,21 +509,36 @@ function updateModeButtonText() {
 
 // 表达式处理
 function processExpression(expression) {
-  // 处理隐式乘法 如 2(3) -> 2*(3)
+  // 先处理表达式中的空格
+  expression = expression.replace(/\s+/g, '');
+
+  // 处理隐式乘法 如 2(3) -> 2*(3) 或 )( -> )*(
   expression = expression.replace(/(\d+\.?\d*|\))(\()/g, '$1*$2');
   
-  // 处理带括号的函数调用，如sin(90)
-  expression = expression.replace(/(sin|cos|tan|log|sqrt)\(([^()]*)\)/g, (match, func, content) => {
-    const innerResult = processExpression(content);
-    return handleFunction(func, innerResult);
-  });
-  
-  // 处理常规括号
+  // 首先处理嵌套括号，从内到外
+  let bracketRegex = /\(([^()]*)\)/g;
   while (expression.includes('(') && expression.includes(')')) {
-    expression = expression.replace(/\(([^()]*)\)/g, (match, content) => {
-      return processExpression(content);
+    expression = expression.replace(bracketRegex, (match, content) => {
+      // 先处理括号内的函数，如 sin(90)
+      content = content.replace(/(sin|cos|tan|log|sqrt)(\d+\.?\d*)/g, (match, func, number) => {
+        return handleFunction(func, parseFloat(number));
+      });
+      
+      // 然后按顺序处理其他运算
+      content = processExponents(content);
+      content = processMultiplicationDivision(content);
+      content = processAdditionSubtraction(content);
+      
+      return content;
     });
   }
+  
+  // 处理带括号的函数，如 sin(90)
+  expression = expression.replace(/(sin|cos|tan|log|sqrt)\(([^()]*)\)/g, (match, func, content) => {
+    // 进一步处理内容以确保正确计算
+    const processedContent = processExpression(content);
+    return handleFunction(func, parseFloat(processedContent));
+  });
   
   // 处理剩余的函数（不带括号）
   expression = processFunctions(expression);
@@ -321,7 +552,7 @@ function processExpression(expression) {
   // 处理加法和减法
   expression = processAdditionSubtraction(expression);
   
-  return parseFloat(expression);
+  return expression;
 }
 
 // 处理函数
@@ -385,7 +616,7 @@ function processExponents(expression) {
 
 // 处理乘法和除法
 function processMultiplicationDivision(expression) {
-  // 匹配乘法和除法模式
+  // 匹配乘法和除法模式，确保能捕获所有有效表达式
   const regex = /(-?\d+\.?\d*)([\*\/])(-?\d+\.?\d*)/;
   let match = regex.exec(expression);
   
@@ -412,12 +643,19 @@ function processMultiplicationDivision(expression) {
 
 // 处理加法和减法
 function processAdditionSubtraction(expression) {
-  // 首先替换所有的减号为加负数
-  expression = expression.replace(/([0-9.]+)-([0-9.]+)/g, "$1+-$2");
+  // 处理负数，确保减法操作正确解析
+  // 首先替换以减号开头的情况
+  if (expression.startsWith('-')) {
+    expression = '0' + expression;
+  }
   
-  // 分割成数字数组
-  const numbers = expression.split('+').map(Number);
+  // 替换所有的减法为加法和负数
+  expression = expression.replace(/(\d+\.?\d*)-(\d+\.?\d*)/g, "$1+-$2");
   
-  // 求和
-  return numbers.reduce((sum, num) => sum + num, 0);
+  // 分割成数字数组，过滤掉空字符串
+  const numbers = expression.split('+').filter(part => part.trim() !== '').map(Number);
+  
+  // 求和，确保结果是数字
+  const result = numbers.reduce((sum, num) => sum + num, 0);
+  return result.toString();
 } 

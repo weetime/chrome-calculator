@@ -88,6 +88,22 @@ body {
   font-family: 'Consolas', 'Courier New', monospace;
 }
 
+/* 使输入框看起来像只读但实际可编辑 */
+.editable-input {
+  cursor: text;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  caret-color: var(--section-header-color); /* 自定义光标颜色 */
+}
+
+/* 禁止输入框的默认外观 */
+.editable-input:focus {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
 /* 按钮布局 */
 .buttons {
   display: flex;
