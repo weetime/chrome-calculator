@@ -17,11 +17,11 @@ const translations = {
     'deg': 'Deg',
     'clear': 'C',
     // 帮助面板
-    'help_title': 'Keyboard Shortcuts',
+    'help_title': 'Help & Settings',
     'help_close': '×',
     'basic_operations': 'Basic Operations',
     'functions_constants': 'Functions & Constants',
-    'control_keys': 'Control Keys',
+    'control_keys': 'Keyboard Shortcuts',
     'special_notes': 'Special Notes',
     // 基本操作
     'numbers': 'Numbers',
@@ -30,7 +30,7 @@ const translations = {
     'subtraction': 'Subtraction',
     'multiplication': 'Multiplication',
     'division': 'Division',
-    'exponentiation': 'Exponentiation',
+    'exponentiation': 'Power',
     'parentheses': 'Parentheses',
     // 函数与常数
     'sine_function': 'Sine function (sin)',
@@ -42,8 +42,8 @@ const translations = {
     'e_constant': 'e constant',
     'toggle_rad_deg': 'Toggle Radian/Degree mode',
     // 控制键
-    'calculate_result': 'Calculate result',
-    'clear_display': 'Clear display',
+    'calculate_result': 'Calculate',
+    'clear_display': 'Clear',
     'delete_last': 'Delete last character',
     // 特别说明
     'auto_switch_deg': 'When using trigonometric functions (sin, cos, tan), the calculator automatically switches to degree mode',
@@ -51,7 +51,8 @@ const translations = {
     // 错误信息
     'error': 'Error',
     // 语言选择
-    'language': 'Language'
+    'language': 'Language',
+    'theme': 'Theme'
   },
   
   // 中文 (Chinese)
@@ -63,11 +64,11 @@ const translations = {
     'deg': '角度',
     'clear': '清除',
     // 帮助面板
-    'help_title': '键盘快捷键',
+    'help_title': '帮助与设置',
     'help_close': '×',
     'basic_operations': '基本操作',
     'functions_constants': '函数与常数',
-    'control_keys': '控制键',
+    'control_keys': '键盘快捷键',
     'special_notes': '特别说明',
     // 基本操作
     'numbers': '数字',
@@ -88,8 +89,8 @@ const translations = {
     'e_constant': 'e 常数',
     'toggle_rad_deg': '切换弧度/角度模式',
     // 控制键
-    'calculate_result': '计算结果',
-    'clear_display': '清除显示',
+    'calculate_result': '计算',
+    'clear_display': '清除',
     'delete_last': '删除最后一个字符',
     // 特别说明
     'auto_switch_deg': '使用三角函数(sin, cos, tan)时，计算器会自动切换到角度(Deg)模式',
@@ -97,7 +98,8 @@ const translations = {
     // 错误信息
     'error': '错误',
     // 语言选择
-    'language': '语言'
+    'language': '语言',
+    'theme': '主题'
   },
   
   // 西班牙语 (Spanish)
@@ -109,11 +111,11 @@ const translations = {
     'deg': 'Grados',
     'clear': 'C',
     // 帮助面板
-    'help_title': 'Atajos de Teclado',
+    'help_title': 'Ayuda y Configuración',
     'help_close': '×',
     'basic_operations': 'Operaciones Básicas',
     'functions_constants': 'Funciones y Constantes',
-    'control_keys': 'Teclas de Control',
+    'control_keys': 'Atajos de Teclado',
     'special_notes': 'Notas Especiales',
     // 基本操作
     'numbers': 'Números',
@@ -122,7 +124,7 @@ const translations = {
     'subtraction': 'Resta',
     'multiplication': 'Multiplicación',
     'division': 'División',
-    'exponentiation': 'Potenciación',
+    'exponentiation': 'Potencia',
     'parentheses': 'Paréntesis',
     // 函数与常数
     'sine_function': 'Función seno (sin)',
@@ -132,10 +134,10 @@ const translations = {
     'sqrt_function': 'Función raíz cuadrada (sqrt)',
     'pi_constant': 'Constante π',
     'e_constant': 'Constante e',
-    'toggle_rad_deg': 'Alternar modo Radián/Grados',
+    'toggle_rad_deg': 'Cambiar Radián/Grados',
     // 控制键
-    'calculate_result': 'Calcular resultado',
-    'clear_display': 'Borrar pantalla',
+    'calculate_result': 'Calcular',
+    'clear_display': 'Borrar',
     'delete_last': 'Borrar último carácter',
     // 特别说明
     'auto_switch_deg': 'Al usar funciones trigonométricas (sin, cos, tan), la calculadora cambia automáticamente al modo de grados',
@@ -143,7 +145,8 @@ const translations = {
     // 错误信息
     'error': 'Error',
     // 语言选择
-    'language': 'Idioma'
+    'language': 'Idioma',
+    'theme': 'Tema'
   },
   
   // 法语 (French)
@@ -155,20 +158,20 @@ const translations = {
     'deg': 'Deg',
     'clear': 'C',
     // 帮助面板
-    'help_title': 'Raccourcis Clavier',
+    'help_title': 'Aide et Paramètres',
     'help_close': '×',
     'basic_operations': 'Opérations de Base',
     'functions_constants': 'Fonctions et Constantes',
-    'control_keys': 'Touches de Contrôle',
+    'control_keys': 'Raccourcis Clavier',
     'special_notes': 'Notes Spéciales',
     // 基本操作
-    'numbers': 'Chiffres',
+    'numbers': 'Nombres',
     'decimal_point': 'Point décimal',
     'addition': 'Addition',
     'subtraction': 'Soustraction',
     'multiplication': 'Multiplication',
     'division': 'Division',
-    'exponentiation': 'Exponentielle',
+    'exponentiation': 'Puissance',
     'parentheses': 'Parenthèses',
     // 函数与常数
     'sine_function': 'Fonction sinus (sin)',
@@ -180,8 +183,8 @@ const translations = {
     'e_constant': 'Constante e',
     'toggle_rad_deg': 'Basculer entre les modes Radian/Degré',
     // 控制键
-    'calculate_result': 'Calculer le résultat',
-    'clear_display': 'Effacer l\'affichage',
+    'calculate_result': 'Calculer',
+    'clear_display': 'Effacer',
     'delete_last': 'Supprimer le dernier caractère',
     // 特别说明
     'auto_switch_deg': 'Lors de l\'utilisation des fonctions trigonométriques (sin, cos, tan), la calculatrice passe automatiquement en mode degrés',
@@ -189,7 +192,8 @@ const translations = {
     // 错误信息
     'error': 'Erreur',
     // 语言选择
-    'language': 'Langue'
+    'language': 'Langue',
+    'theme': 'Thème'
   },
   
   // 日语 (Japanese)
@@ -201,11 +205,11 @@ const translations = {
     'deg': '度',
     'clear': 'C',
     // 帮助面板
-    'help_title': 'キーボードショートカット',
+    'help_title': 'ヘルプと設定',
     'help_close': '×',
     'basic_operations': '基本操作',
     'functions_constants': '関数と定数',
-    'control_keys': 'コントロールキー',
+    'control_keys': 'キーボードショートカット',
     'special_notes': '特記事項',
     // 基本操作
     'numbers': '数字',
@@ -226,8 +230,8 @@ const translations = {
     'e_constant': 'e定数',
     'toggle_rad_deg': 'ラジアン/度モード切替',
     // 控制键
-    'calculate_result': '結果を計算',
-    'clear_display': 'ディスプレイをクリア',
+    'calculate_result': '計算',
+    'clear_display': 'クリア',
     'delete_last': '最後の文字を削除',
     // 特别说明
     'auto_switch_deg': '三角関数(sin、cos、tan)を使用すると、電卓は自動的に度モードに切り替わります',
@@ -235,7 +239,8 @@ const translations = {
     // 错误信息
     'error': 'エラー',
     // 语言选择
-    'language': '言語'
+    'language': '言語',
+    'theme': 'テーマ'
   }
 };
 
@@ -297,7 +302,7 @@ function initLocale() {
 
 // 更新UI语言
 function updateUI() {
-  // 这个函数将在主JS文件中实现
+  console.log('触发语言变更事件:', currentLocale);
   // 触发自定义事件
   const event = new CustomEvent('localeChanged', { detail: { locale: currentLocale } });
   document.dispatchEvent(event);

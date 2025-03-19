@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <title>Scientific Calculator</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="i18n.js"></script>
 </head>
 <body>
   <div class="calculator">
+    <h1 class="calculator-title" data-i18n="title">Scientific Calculator</h1>
+    
     <div class="display">
       <input type="text" id="result" disabled>
     </div>
+    
     <div class="buttons">
       <div class="row">
         <button class="function-btn" data-value="sin">sin</button>
@@ -40,7 +42,7 @@
         <button class="num-btn" data-value="1">1</button>
         <button class="num-btn" data-value="2">2</button>
         <button class="num-btn" data-value="3">3</button>
-        <button class="operation-btn" data-value="-">-</button>
+        <button class="operation-btn" data-value="-">−</button>
       </div>
       <div class="row">
         <button class="num-btn" data-value="0">0</button>
@@ -51,7 +53,7 @@
       <div class="row">
         <button class="function-btn" data-value="pi">π</button>
         <button class="function-btn" data-value="e">e</button>
-        <button class="function-btn" data-value="rad_deg" data-i18n="rad_deg">Rad|Deg</button>
+        <button class="function-btn" data-value="rad_deg" data-i18n="rad">Rad</button>
         <button class="equals-btn" data-value="equals">=</button>
       </div>
     </div>
@@ -60,14 +62,24 @@
     
     <div class="keyboard-help" id="keyboardHelp">
       <div class="help-header">
-        <h3 data-i18n="help_title">键盘快捷键</h3>
+        <h3 data-i18n="help_title">Help & Settings</h3>
         <span class="close-help" id="closeHelp" data-i18n="help_close">×</span>
       </div>
       <div class="help-content">
+        <div class="theme-section">
+          <h4 data-i18n="theme">Theme</h4>
+          <div class="theme-selector">
+            <div class="theme-option theme-light" data-theme="light"></div>
+            <div class="theme-option theme-dark" data-theme="dark"></div>
+            <div class="theme-option theme-blue" data-theme="blue"></div>
+            <div class="theme-option theme-pink" data-theme="pink"></div>
+            <div class="theme-option theme-green" data-theme="green"></div>
+          </div>
+        </div>
         <div class="language-section">
-          <h4 data-i18n="language">语言</h4>
+          <h4 data-i18n="language">Language</h4>
           <div class="language-selector">
-            <select id="locale-select">
+            <select id="languageSelector">
               <option value="en">English</option>
               <option value="zh">中文</option>
               <option value="es">Español</option>
@@ -77,49 +89,51 @@
           </div>
         </div>
         <div class="help-section">
-          <h4 data-i18n="basic_operations">基本操作</h4>
+          <h4 data-i18n="basic_operations">Basic Operations</h4>
           <ul>
-            <li><span class="key">0-9</span> <span data-i18n="numbers">数字</span></li>
-            <li><span class="key">.</span> <span data-i18n="decimal_point">小数点</span></li>
-            <li><span class="key">+</span> <span data-i18n="addition">加法</span></li>
-            <li><span class="key">-</span> <span data-i18n="subtraction">减法</span></li>
-            <li><span class="key">*</span> <span data-i18n="multiplication">乘法</span></li>
-            <li><span class="key">/</span> <span data-i18n="division">除法</span></li>
-            <li><span class="key">^</span> <span data-i18n="exponentiation">幂运算</span></li>
-            <li><span class="key">()</span> <span data-i18n="parentheses">括号</span></li>
+            <li><span class="key">0-9</span> <span data-i18n="numbers">Numbers</span></li>
+            <li><span class="key">.</span> <span data-i18n="decimal_point">Decimal point</span></li>
+            <li><span class="key">+</span> <span data-i18n="addition">Addition</span></li>
+            <li><span class="key">-</span> <span data-i18n="subtraction">Subtraction</span></li>
+            <li><span class="key">*</span> <span data-i18n="multiplication">Multiplication</span></li>
+            <li><span class="key">/</span> <span data-i18n="division">Division</span></li>
+            <li><span class="key">^</span> <span data-i18n="exponentiation">Power</span></li>
+            <li><span class="key">()</span> <span data-i18n="parentheses">Parentheses</span></li>
           </ul>
         </div>
         <div class="help-section">
-          <h4 data-i18n="functions_constants">函数与常数</h4>
+          <h4 data-i18n="functions_constants">Functions & Constants</h4>
           <ul>
-            <li><span class="key">s</span> <span data-i18n="sine_function">正弦函数 (sin)</span></li>
-            <li><span class="key">c</span> <span data-i18n="cosine_function">余弦函数 (cos)</span></li>
-            <li><span class="key">t</span> <span data-i18n="tangent_function">正切函数 (tan)</span></li>
-            <li><span class="key">l</span> <span data-i18n="logarithm_function">对数函数 (log)</span></li>
-            <li><span class="key">r</span> <span data-i18n="sqrt_function">平方根函数 (sqrt)</span></li>
-            <li><span class="key">p</span> <span data-i18n="pi_constant">π 常数</span></li>
-            <li><span class="key">e</span> <span data-i18n="e_constant">e 常数</span></li>
-            <li><span class="key">d</span> <span data-i18n="toggle_rad_deg">切换弧度/角度模式</span></li>
+            <li><span class="key">s</span> <span data-i18n="sine_function">Sine function (sin)</span></li>
+            <li><span class="key">c</span> <span data-i18n="cosine_function">Cosine function (cos)</span></li>
+            <li><span class="key">t</span> <span data-i18n="tangent_function">Tangent function (tan)</span></li>
+            <li><span class="key">l</span> <span data-i18n="logarithm_function">Logarithm function (log)</span></li>
+            <li><span class="key">r</span> <span data-i18n="sqrt_function">Square root function (sqrt)</span></li>
+            <li><span class="key">p</span> <span data-i18n="pi_constant">π constant</span></li>
+            <li><span class="key">e</span> <span data-i18n="e_constant">e constant</span></li>
+            <li><span class="key">d</span> <span data-i18n="toggle_rad_deg">Toggle Radian/Degree mode</span></li>
           </ul>
         </div>
         <div class="help-section">
-          <h4 data-i18n="control_keys">控制键</h4>
+          <h4 data-i18n="control_keys">Control Keys</h4>
           <ul>
-            <li><span class="key">Enter</span> <span data-i18n="calculate_result">计算结果</span></li>
-            <li><span class="key">Esc</span> <span data-i18n="clear_display">清除显示</span></li>
-            <li><span class="key">Backspace</span> <span data-i18n="delete_last">删除最后一个字符</span></li>
+            <li><span class="key">Enter</span> <span data-i18n="calculate_result">Calculate</span></li>
+            <li><span class="key">Esc</span> <span data-i18n="clear_display">Clear</span></li>
+            <li><span class="key">Backspace</span> <span data-i18n="delete_last">Delete last character</span></li>
           </ul>
         </div>
         <div class="help-section">
-          <h4 data-i18n="special_notes">特别说明</h4>
+          <h4 data-i18n="special_notes">Special Notes</h4>
           <ul>
-            <li><span data-i18n="auto_switch_deg">使用三角函数(sin, cos, tan)时，计算器会自动切换到度数(Deg)模式</span></li>
-            <li><span data-i18n="manual_toggle">使用<span class="key">d</span>键可以随时在弧度(Rad)和度数(Deg)模式之间切换</span></li>
+            <li><span data-i18n="auto_switch_deg">When using trigonometric functions (sin, cos, tan), the calculator automatically switches to degree mode</span></li>
+            <li><span data-i18n="manual_toggle">Use the <span class="key">d</span> key to toggle between Radian and Degree modes anytime</span></li>
           </ul>
         </div>
       </div>
     </div>
   </div>
+  <script src="i18n.js"></script>
+  <script src="themes.js"></script>
   <script src="popup.js"></script>
 </body>
 </html> 

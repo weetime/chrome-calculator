@@ -18,6 +18,7 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
   - Implicit multiplication (e.g., 2(3+1) = 2*(3+1))
   - Keyboard input support
   - Internationalization support (English, Chinese, Spanish, French, Japanese)
+  - Multiple themes (Light, Dark, Blue, Pink, Green)
 
 ## Installation
 
@@ -42,7 +43,7 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
 3. Click "=" or press Enter to calculate the result
 4. Use the "Rad/Deg" button to toggle between radian and degree modes (for trigonometric calculations)
 5. When using trigonometric functions (sin, cos, tan), the calculator automatically switches to degree mode for easier calculation
-6. Access language settings and keyboard shortcuts by clicking the help (?) icon
+6. Access language settings, themes, and keyboard shortcuts by clicking the help (?) icon
 
 ### Keyboard Shortcuts
 
@@ -61,6 +62,15 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
   - Escape - Clear display
   - Backspace - Delete last character
 
+### Themes
+
+The calculator offers five visual themes that can be selected from the help panel:
+- **Light** - Default clean light theme
+- **Dark** - Low-light dark theme
+- **Blue** - Ocean blue theme
+- **Pink** - Soft pink theme
+- **Green** - Nature green theme
+
 ## Examples
 
 - Basic calculation: `2 + 3 * 4 = 14`
@@ -77,6 +87,7 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
 - `popup.js` - Calculator's core logic
 - `styles.css` - Calculator's stylesheet
 - `i18n.js` - Internationalization support
+- `themes.js` - Theme management and styling
 - `manifest.json` - Chrome extension configuration file
 - `icons/` - Folder containing extension icons (16px, 48px, 128px)
 
@@ -87,6 +98,7 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
 - Recursive parsing for handling nested parentheses and function calls
 - Priority handling for different mathematical operators
 - Support for both radian and degree modes in trigonometric calculations
+- Theming system using CSS variables for dynamic styles
 - Keyboard input handling for improved user experience
 - Intuitive mode switching for trigonometric functions
 - Internationalization (i18n) with support for multiple languages

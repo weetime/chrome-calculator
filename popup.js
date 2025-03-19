@@ -1,384 +1,403 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const result = document.getElementById('result');
-  let currentInput = '';
-  let isInRadianMode = true;
+// 全局变量
+let isRadMode = true; // 默认使用弧度模式
+let currentLanguage = 'en'; // 默认语言为英语
 
+// DOM 元素
+const display = document.getElementById('result');
+const helpBtn = document.getElementById('helpIcon');
+const keyboardHelp = document.getElementById('keyboardHelp');
+const closeHelp = document.getElementById('closeHelp');
+const localeSelect = document.getElementById('languageSelector');
+
+// 当DOM加载完成时初始化
+document.addEventListener('DOMContentLoaded', function() {
+  // DOM 元素
+  const display = document.getElementById('result');
+  const helpBtn = document.getElementById('helpIcon');
+  const keyboardHelp = document.getElementById('keyboardHelp');
+  const closeHelp = document.getElementById('closeHelp');
+  const localeSelect = document.getElementById('languageSelector');
+  
   // 初始化国际化
   i18n.initLocale();
+  currentLanguage = i18n.getCurrentLocale();
   
-  // 更新 UI 文本
-  updateUITranslations();
+  // 初始化主题
+  themeManager.initTheme();
   
-  // 设置语言选择器的当前值
-  const localeSelect = document.getElementById('locale-select');
-  localeSelect.value = i18n.getCurrentLocale();
+  // 设置选择器的初始值
+  localeSelect.value = currentLanguage;
   
-  // 绑定语言选择器变化事件
+  // 更新界面文本
+  updateInterfaceTexts();
+  
+  // 从本地存储加载弧度/角度模式
+  const savedMode = localStorage.getItem('calculatorMode');
+  if (savedMode) {
+    isRadMode = savedMode === 'rad';
+    updateModeButtonText();
+  }
+  
+  // 添加按钮点击事件
+  document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', function() {
+      const value = this.getAttribute('data-value');
+      handleButtonClick(value);
+    });
+  });
+  
+  // 帮助按钮点击事件
+  helpBtn.addEventListener('click', () => {
+    keyboardHelp.classList.add('show');
+  });
+  
+  // 关闭帮助按钮点击事件
+  closeHelp.addEventListener('click', () => {
+    keyboardHelp.classList.remove('show');
+  });
+  
+  // 语言选择器更改事件
   localeSelect.addEventListener('change', function() {
-    i18n.setLocale(this.value);
-    // UI 更新由 i18n.setLocale 内部的事件监听器处理
+    const selectedLanguage = this.value;
+    console.log('语言已切换到:', selectedLanguage);
+    i18n.setLocale(selectedLanguage);
+    currentLanguage = selectedLanguage;
+    // 直接调用更新界面文本，避免事件通知可能不及时的问题
+    updateInterfaceTexts();
   });
   
   // 监听语言变化事件
   document.addEventListener('localeChanged', function(e) {
-    updateUITranslations();
+    console.log('接收到语言变化事件:', e.detail.locale);
+    updateInterfaceTexts();
   });
   
-  // 更新 UI 文本的函数
-  function updateUITranslations() {
-    // 更新文档标题
-    document.title = i18n.getTranslation('title');
-    
-    // 更新所有带有 data-i18n 属性的元素
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-      const key = element.getAttribute('data-i18n');
-      element.textContent = i18n.getTranslation(key);
-    });
-    
-    // 特殊情况：Rad/Deg 按钮
-    const radDegButton = document.querySelector('[data-value="rad_deg"]');
-    radDegButton.textContent = isInRadianMode ? i18n.getTranslation('rad') : i18n.getTranslation('deg');
-  }
-
-  // Add event listeners to all buttons
-  document.querySelectorAll('button').forEach(button => {
-    button.addEventListener('click', handleButtonClick);
-  });
-
-  // Add keyboard event listener
+  // 初始化主题选择器
+  initThemeSelector();
+  
+  // 添加键盘事件
   document.addEventListener('keydown', handleKeyPress);
+});
+
+// 更新界面所有文本
+function updateInterfaceTexts() {
+  // 更新文档标题
+  document.title = i18n.getTranslation('title');
   
-  // Help button functionality
-  const helpIcon = document.getElementById('helpIcon');
-  const keyboardHelp = document.getElementById('keyboardHelp');
-  const closeHelp = document.getElementById('closeHelp');
-  
-  // Show help panel when clicking the help icon
-  helpIcon.addEventListener('click', function() {
-    keyboardHelp.classList.add('show');
+  // 更新所有带有data-i18n属性的元素
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    const key = element.getAttribute('data-i18n');
+    element.textContent = i18n.getTranslation(key);
   });
   
-  // Hide help panel when clicking the close button
-  closeHelp.addEventListener('click', function() {
-    keyboardHelp.classList.remove('show');
-  });
+  // 特殊情况：模式按钮
+  updateModeButtonText();
+}
+
+// 初始化主题选择器
+function initThemeSelector() {
+  // 获取所有主题选项
+  const themeOptions = document.querySelectorAll('.theme-option');
   
-  // Hide help panel when pressing Escape while it's open
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && keyboardHelp.classList.contains('show')) {
-      keyboardHelp.classList.remove('show');
-      e.stopPropagation(); // Prevent the calculator clear action
-    }
-  });
-
-  // Handle keyboard input
-  function handleKeyPress(e) {
-    // Skip handling keyboard input if help is shown
-    if (keyboardHelp.classList.contains('show')) {
-      return;
-    }
-    
-    e.preventDefault(); // Prevent default action for some keys
-
-    // Numbers, decimal point, operators
-    if (/^[0-9.+\-*/()^]$/.test(e.key)) {
-      appendToDisplay(e.key);
-    } 
-    // Enter key for equals
-    else if (e.key === 'Enter') {
-      calculateResult();
-    } 
-    // Backspace for deleting last character
-    else if (e.key === 'Backspace') {
-      if (currentInput.length > 0) {
-        currentInput = currentInput.slice(0, -1);
-        result.value = currentInput;
-      }
-    } 
-    // Escape key for clear
-    else if (e.key === 'Escape') {
-      clearDisplay();
-    }
-    // Function keys
-    else if (e.key === 's') {
-      // 自动切换到度数模式
-      switchToDegreeMode();
-      handleFunction('sin');
-    }
-    else if (e.key === 'c') {
-      // 自动切换到度数模式
-      switchToDegreeMode();
-      handleFunction('cos');
-    }
-    else if (e.key === 't') {
-      // 自动切换到度数模式
-      switchToDegreeMode();
-      handleFunction('tan');
-    }
-    else if (e.key === 'l') {
-      handleFunction('log');
-    }
-    else if (e.key === 'r') {
-      handleFunction('sqrt');
-    }
-    // Toggle Radian/Degree with 'd'
-    else if (e.key === 'd') {
-      toggleRadianDegree();
-    }
-    // Pi with 'p'
-    else if (e.key === 'p') {
-      appendToDisplay(Math.PI);
-    }
-    // e with 'e'
-    else if (e.key === 'e') {
-      appendToDisplay(Math.E);
-    }
-  }
-
-  function handleButtonClick(e) {
-    const value = e.target.getAttribute('data-value');
-    
-    if (value === 'clear') {
-      clearDisplay();
-    } else if (value === 'equals') {
-      calculateResult();
-    } else if (value === 'rad_deg') {
-      toggleRadianDegree();
-    } else if (value === 'sin' || value === 'cos' || value === 'tan' || value === 'log' || value === 'sqrt') {
-      handleFunction(value);
-    } else if (value === 'pi') {
-      appendToDisplay(Math.PI);
-    } else if (value === 'e') {
-      appendToDisplay(Math.E);
-    } else if (value === 'power') {
-      appendToDisplay('^');
-    } else {
-      appendToDisplay(value);
-    }
-  }
-
-  function appendToDisplay(value) {
-    currentInput += value;
-    result.value = currentInput;
-  }
-
-  function clearDisplay() {
-    currentInput = '';
-    result.value = '';
-  }
-
-  function toggleRadianDegree() {
-    isInRadianMode = !isInRadianMode;
-    const radDegButton = document.querySelector('[data-value="rad_deg"]');
-    radDegButton.textContent = isInRadianMode ? i18n.getTranslation('rad') : i18n.getTranslation('deg');
-  }
-
-  // 对于三角函数的辅助函数，用于自动切换到度数模式
-  function switchToDegreeMode() {
-    if (isInRadianMode) {
-      isInRadianMode = false;
-      const radDegButton = document.querySelector('[data-value="rad_deg"]');
-      radDegButton.textContent = i18n.getTranslation('deg');
-    }
-  }
-
-  function handleFunction(func) {
-    // 对于三角函数，自动切换到度数模式
-    if ((func === 'sin' || func === 'cos' || func === 'tan') && isInRadianMode) {
-      switchToDegreeMode();
-    }
-    
-    switch (func) {
-      case 'sin':
-        appendToDisplay('sin(');
-        break;
-      case 'cos':
-        appendToDisplay('cos(');
-        break;
-      case 'tan':
-        appendToDisplay('tan(');
-        break;
-      case 'log':
-        appendToDisplay('log(');
-        break;
-      case 'sqrt':
-        appendToDisplay('sqrt(');
-        break;
-    }
-  }
-
-  function calculateResult() {
-    try {
-      // Create a safe expression parser instead of using eval
-      let expression = currentInput;
-      
-      // Process parentheses and operations correctly
-      const calculatedResult = processExpression(expression);
-      
-      // Format the result (limit decimal places for readability)
-      let formattedResult;
-      if (typeof calculatedResult === 'number') {
-        // Limit to 10 decimal places and remove trailing zeros
-        formattedResult = parseFloat(calculatedResult.toFixed(10)).toString();
-      } else {
-        formattedResult = calculatedResult;
-      }
-      
-      // Update the display
-      result.value = formattedResult;
-      currentInput = formattedResult;
-    } catch (error) {
-      result.value = i18n.getTranslation('error');
-      currentInput = '';
-      console.error('Calculation error:', error);
-    }
-  }
+  // 从主题管理器获取当前主题
+  const currentTheme = themeManager.getCurrentTheme();
   
-  // Safely process and evaluate mathematical expressions
-  function processExpression(expr) {
-    // Replace scientific functions and constants
-    expr = expr.replace(/(\d+\.?\d*|\))(\()/g, '$1*$2'); // Implicit multiplication e.g. 2(3) -> 2*(3)
-    
-    // Handle functions with parentheses like sin(90)
-    const funcParenPattern = /(sin|cos|tan|log|sqrt)\(([^()]*)\)/g;
-    while (funcParenPattern.test(expr)) {
-      expr = expr.replace(funcParenPattern, function(match, func, innerExpr) {
-        // Process the inner expression first
-        const innerResult = processExpression(innerExpr);
-        const value = parseFloat(innerResult);
-        
-        // Apply the appropriate function
-        switch(func) {
-          case 'sin':
-            const sinAngle = isInRadianMode ? value : (value * Math.PI / 180);
-            return Math.sin(sinAngle);
-          case 'cos':
-            const cosAngle = isInRadianMode ? value : (value * Math.PI / 180);
-            return Math.cos(cosAngle);
-          case 'tan':
-            const tanAngle = isInRadianMode ? value : (value * Math.PI / 180);
-            return Math.tan(tanAngle);
-          case 'log':
-            return Math.log10(value);
-          case 'sqrt':
-            return Math.sqrt(value);
-        }
-      });
+  // 标记当前活动主题
+  themeOptions.forEach(option => {
+    const theme = option.getAttribute('data-theme');
+    if (theme === currentTheme) {
+      option.classList.add('active');
     }
     
-    // Handle regular parentheses
-    while (expr.includes('(') && expr.includes(')')) {
-      const lastOpenParenIndex = expr.lastIndexOf('(');
-      const closeParenIndex = expr.indexOf(')', lastOpenParenIndex);
-      
-      if (lastOpenParenIndex !== -1 && closeParenIndex !== -1) {
-        const subExpr = expr.substring(lastOpenParenIndex + 1, closeParenIndex);
-        const subResult = processExpression(subExpr);
-        expr = expr.substring(0, lastOpenParenIndex) + subResult + expr.substring(closeParenIndex + 1);
-      } else {
-        break; // Mismatched parentheses
-      }
-    }
-    
-    // Process functions (for any direct function applications like sin90)
-    expr = processFunctions(expr);
-    
-    // Process exponents (^)
-    expr = processExponents(expr);
-    
-    // Process multiplication and division
-    expr = processMultiplicationDivision(expr);
-    
-    // Process addition and subtraction
-    expr = processAdditionSubtraction(expr);
-    
-    return expr;
-  }
-  
-  function processFunctions(expr) {
-    // Handle sin, cos, tan, log, sqrt functions
-    let result = expr;
-    
-    // Find functions applied to numbers (e.g. sin90 or numbers left after parentheses processing)
-    const funcPattern = /(sin|cos|tan|log|sqrt)(-?\d+\.?\d*)/g;
-    
-    result = result.replace(funcPattern, function(match, func, num) {
-      const value = parseFloat(num);
-      
-      switch(func) {
-        case 'sin':
-          const sinAngle = isInRadianMode ? value : (value * Math.PI / 180);
-          return Math.sin(sinAngle);
-        case 'cos':
-          const cosAngle = isInRadianMode ? value : (value * Math.PI / 180);
-          return Math.cos(cosAngle);
-        case 'tan':
-          const tanAngle = isInRadianMode ? value : (value * Math.PI / 180);
-          return Math.tan(tanAngle);
-        case 'log':
-          return Math.log10(value);
-        case 'sqrt':
-          return Math.sqrt(value);
-      }
+    // 添加点击事件
+    option.addEventListener('click', () => {
+      // 移除所有活动类
+      themeOptions.forEach(opt => opt.classList.remove('active'));
+      // 添加当前活动类
+      option.classList.add('active');
+      // 应用并保存主题
+      const selectedTheme = option.getAttribute('data-theme');
+      themeManager.applyTheme(selectedTheme);
     });
-    
-    return result;
+  });
+}
+
+// 处理按钮点击
+function handleButtonClick(value) {
+  switch(value) {
+    case 'clear':
+      clearDisplay();
+      break;
+    case 'equals':
+      calculate();
+      break;
+    case 'rad_deg':
+      toggleMode();
+      break;
+    default:
+      appendToDisplay(value);
+  }
+}
+
+// 处理键盘按键
+function handleKeyPress(e) {
+  const key = e.key;
+  
+  // 如果帮助面板打开，处理ESC关闭
+  if (document.getElementById('keyboardHelp').classList.contains('show')) {
+    if (key === 'Escape') {
+      document.getElementById('keyboardHelp').classList.remove('show');
+      e.preventDefault();
+    }
+    return;
   }
   
-  function processExponents(expr) {
-    // Process exponents (^)
-    const expRegex = /(-?\d+\.?\d*)\^(-?\d+\.?\d*)/;
-    let result = expr;
+  // 数字和基本运算符
+  if (/[\d+\-*/^.()]/.test(key)) {
+    appendToDisplay(key);
+    e.preventDefault();
+  } 
+  // 等于号和回车键
+  else if (key === '=' || key === 'Enter') {
+    calculate();
+    e.preventDefault();
+  } 
+  // ESC 键清除
+  else if (key === 'Escape') {
+    clearDisplay();
+    e.preventDefault();
+  } 
+  // 删除键
+  else if (key === 'Backspace') {
+    backspace();
+    e.preventDefault();
+  }
+  // 三角函数和其他功能
+  else if (key === 's') {
+    appendToDisplay('sin');
+    e.preventDefault();
+  } 
+  else if (key === 'c') {
+    appendToDisplay('cos');
+    e.preventDefault();
+  } 
+  else if (key === 't') {
+    appendToDisplay('tan');
+    e.preventDefault();
+  } 
+  else if (key === 'l') {
+    appendToDisplay('log');
+    e.preventDefault();
+  } 
+  else if (key === 'r') {
+    appendToDisplay('sqrt');
+    e.preventDefault();
+  } 
+  else if (key === 'd') {
+    toggleMode();
+    e.preventDefault();
+  }
+  else if (key === 'p') {
+    appendToDisplay('π');
+    e.preventDefault();
+  }
+  else if (key === 'e') {
+    appendToDisplay('e');
+    e.preventDefault();
+  }
+}
+
+// 处理退格
+function backspace() {
+  const display = document.getElementById('result');
+  if (display.value.length > 0) {
+    display.value = display.value.slice(0, -1);
+  }
+}
+
+// 向显示屏添加内容
+function appendToDisplay(value) {
+  const display = document.getElementById('result');
+  
+  // 特殊常量处理
+  if (value === 'pi') {
+    display.value += 'π';
+  } 
+  else if (value === 'e') {
+    display.value += 'e';
+  } 
+  else {
+    display.value += value;
+  }
+}
+
+// 清除显示屏
+function clearDisplay() {
+  const display = document.getElementById('result');
+  display.value = '';
+}
+
+// 计算结果
+function calculate() {
+  const display = document.getElementById('result');
+  
+  try {
+    let expression = display.value;
     
-    while (expRegex.test(result)) {
-      result = result.replace(expRegex, function(match, base, exponent) {
-        return Math.pow(parseFloat(base), parseFloat(exponent));
-      });
+    // 替换特殊字符
+    expression = expression.replace(/π/g, 'Math.PI');
+    expression = expression.replace(/e/g, 'Math.E');
+    
+    // 处理表达式
+    const result = processExpression(expression);
+    
+    // 显示结果 (最多保留10位小数)
+    display.value = Number(result.toFixed(10)).toString();
+  } catch (error) {
+    display.value = i18n.getTranslation('error');
+  }
+}
+
+// 切换弧度/角度模式
+function toggleMode() {
+  isRadMode = !isRadMode;
+  updateModeButtonText();
+  localStorage.setItem('calculatorMode', isRadMode ? 'rad' : 'deg');
+}
+
+// 更新模式按钮文本
+function updateModeButtonText() {
+  const modeButton = document.querySelector('button[data-value="rad_deg"]');
+  if (modeButton) {
+    modeButton.textContent = isRadMode ? i18n.getTranslation('rad') : i18n.getTranslation('deg');
+  }
+}
+
+// 表达式处理
+function processExpression(expression) {
+  // 处理隐式乘法 如 2(3) -> 2*(3)
+  expression = expression.replace(/(\d+\.?\d*|\))(\()/g, '$1*$2');
+  
+  // 处理带括号的函数调用，如sin(90)
+  expression = expression.replace(/(sin|cos|tan|log|sqrt)\(([^()]*)\)/g, (match, func, content) => {
+    const innerResult = processExpression(content);
+    return handleFunction(func, innerResult);
+  });
+  
+  // 处理常规括号
+  expression = expression.replace(/\(([^()]*)\)/g, (match, content) => {
+    return processExpression(content);
+  });
+  
+  // 处理剩余的函数（不带括号）
+  expression = processFunctions(expression);
+  
+  // 处理幂运算
+  expression = processExponents(expression);
+  
+  // 处理乘法和除法
+  expression = processMultiplicationDivision(expression);
+  
+  // 处理加法和减法
+  expression = processAdditionSubtraction(expression);
+  
+  return parseFloat(expression);
+}
+
+// 处理函数
+function processFunctions(expression) {
+  // 查找函数应用于数字，例如 sin90
+  return expression.replace(/(sin|cos|tan|log|sqrt)(-?\d+\.?\d*)/g, (match, func, number) => {
+    return handleFunction(func, number);
+  });
+}
+
+// 处理函数应用
+function handleFunction(func, value) {
+  value = parseFloat(value);
+  
+  switch(func) {
+    case 'sin':
+      // 如果在角度模式下，转换为弧度
+      if (!isRadMode) {
+        value = value * Math.PI / 180;
+      }
+      return Math.sin(value);
+    case 'cos':
+      // 如果在角度模式下，转换为弧度
+      if (!isRadMode) {
+        value = value * Math.PI / 180;
+      }
+      return Math.cos(value);
+    case 'tan':
+      // 如果在角度模式下，转换为弧度
+      if (!isRadMode) {
+        value = value * Math.PI / 180;
+      }
+      return Math.tan(value);
+    case 'log':
+      return Math.log10(value);
+    case 'sqrt':
+      return Math.sqrt(value);
+    default:
+      return value;
+  }
+}
+
+// 处理幂运算
+function processExponents(expression) {
+  // 匹配幂运算模式：数字^数字
+  const regex = /(-?\d+\.?\d*)\^(-?\d+\.?\d*)/;
+  let match = regex.exec(expression);
+  
+  while (match) {
+    const base = parseFloat(match[1]);
+    const exponent = parseFloat(match[2]);
+    const power = Math.pow(base, exponent);
+    
+    // 替换表达式中的幂运算
+    expression = expression.replace(match[0], power);
+    match = regex.exec(expression);
+  }
+  
+  return expression;
+}
+
+// 处理乘法和除法
+function processMultiplicationDivision(expression) {
+  // 匹配乘法和除法模式
+  const regex = /(-?\d+\.?\d*)([\*\/])(-?\d+\.?\d*)/;
+  let match = regex.exec(expression);
+  
+  while (match) {
+    const num1 = parseFloat(match[1]);
+    const operator = match[2];
+    const num2 = parseFloat(match[3]);
+    let result;
+    
+    if (operator === '*') {
+      result = num1 * num2;
+    } else if (operator === '/') {
+      if (num2 === 0) throw new Error("Division by zero");
+      result = num1 / num2;
     }
     
-    return result;
+    // 替换表达式中的运算
+    expression = expression.replace(match[0], result);
+    match = regex.exec(expression);
   }
   
-  function processMultiplicationDivision(expr) {
-    // Process multiplication and division
-    const multDivRegex = /(-?\d+\.?\d*)([\*\/])(-?\d+\.?\d*)/;
-    let result = expr;
-    
-    while (multDivRegex.test(result)) {
-      result = result.replace(multDivRegex, function(match, a, op, b) {
-        if (op === '*') {
-          return parseFloat(a) * parseFloat(b);
-        } else if (op === '/') {
-          return parseFloat(a) / parseFloat(b);
-        }
-      });
-    }
-    
-    return result;
-  }
+  return expression;
+}
+
+// 处理加法和减法
+function processAdditionSubtraction(expression) {
+  // 首先替换所有的减号为加负数
+  expression = expression.replace(/([0-9.]+)-([0-9.]+)/g, "$1+-$2");
   
-  function processAdditionSubtraction(expr) {
-    // Process addition and subtraction
-    // First, make sure subtraction is handled correctly for negative numbers
-    let result = expr.replace(/([+\-\*\/])-/g, '$1-');
-    
-    // Handle addition and subtraction
-    const addSubRegex = /(-?\d+\.?\d*)([+\-])(-?\d+\.?\d*)/;
-    
-    while (addSubRegex.test(result)) {
-      result = result.replace(addSubRegex, function(match, a, op, b) {
-        if (op === '+') {
-          return parseFloat(a) + parseFloat(b);
-        } else if (op === '-') {
-          return parseFloat(a) - parseFloat(b);
-        }
-      });
-    }
-    
-    return result;
-  }
+  // 分割成数字数组
+  const numbers = expression.split('+').map(Number);
   
-  // Initialize rad/deg button state
-  const radDegButton = document.querySelector('[data-value="rad_deg"]');
-  radDegButton.textContent = isInRadianMode ? i18n.getTranslation('rad') : i18n.getTranslation('deg');
-}); 
+  // 求和
+  return numbers.reduce((sum, num) => sum + num, 0);
+} 
