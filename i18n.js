@@ -302,7 +302,6 @@ function initLocale() {
 
 // 更新UI语言
 function updateUI() {
-  console.log('触发语言变更事件:', currentLocale);
   // 触发自定义事件
   const event = new CustomEvent('localeChanged', { detail: { locale: currentLocale } });
   document.dispatchEvent(event);

@@ -111,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // 语言选择器更改事件
   localeSelect.addEventListener('change', function() {
     const selectedLanguage = this.value;
-    console.log('语言已切换到:', selectedLanguage);
     i18n.setLocale(selectedLanguage);
     currentLanguage = selectedLanguage;
     // 直接调用更新界面文本，避免事件通知可能不及时的问题
@@ -120,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 监听语言变化事件
   document.addEventListener('localeChanged', function(e) {
-    console.log('接收到语言变化事件:', e.detail.locale);
     updateInterfaceTexts();
   });
   
