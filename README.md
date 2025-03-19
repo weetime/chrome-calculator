@@ -12,9 +12,12 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
 - **Constants**: π (pi), e
 - **Special Features**:
   - Radian/Degree mode toggle
+  - Automatic switching to Degree mode for trigonometric functions
   - Exponentiation (x^y)
   - Complex expression calculation with parentheses
   - Implicit multiplication (e.g., 2(3+1) = 2*(3+1))
+  - Keyboard input support
+  - Internationalization support (English, Chinese, Spanish, French, Japanese)
 
 ## Installation
 
@@ -38,6 +41,25 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
 2. Enter expressions using the calculator buttons or your keyboard
 3. Click "=" or press Enter to calculate the result
 4. Use the "Rad/Deg" button to toggle between radian and degree modes (for trigonometric calculations)
+5. When using trigonometric functions (sin, cos, tan), the calculator automatically switches to degree mode for easier calculation
+6. Access language settings and keyboard shortcuts by clicking the help (?) icon
+
+### Keyboard Shortcuts
+
+- **Numbers & Basic Operations**: Direct input (0-9, +, -, *, /, ^, .)
+- **Functions**:
+  - 's' - Sine function
+  - 'c' - Cosine function
+  - 't' - Tangent function
+  - 'l' - Logarithm function
+  - 'r' - Square root function
+  - 'p' - π (pi) constant
+  - 'e' - e constant
+  - 'd' - Toggle between Radian/Degree
+- **Control Keys**:
+  - Enter - Calculate result
+  - Escape - Clear display
+  - Backspace - Delete last character
 
 ## Examples
 
@@ -54,6 +76,7 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
 - `popup.html` - Calculator's HTML interface
 - `popup.js` - Calculator's core logic
 - `styles.css` - Calculator's stylesheet
+- `i18n.js` - Internationalization support
 - `manifest.json` - Chrome extension configuration file
 - `icons/` - Folder containing extension icons (16px, 48px, 128px)
 
@@ -64,6 +87,9 @@ A compact and efficient Scientific Calculator Chrome Extension that provides bot
 - Recursive parsing for handling nested parentheses and function calls
 - Priority handling for different mathematical operators
 - Support for both radian and degree modes in trigonometric calculations
+- Keyboard input handling for improved user experience
+- Intuitive mode switching for trigonometric functions
+- Internationalization (i18n) with support for multiple languages
 
 ## Compatibility
 

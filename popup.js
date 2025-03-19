@@ -3,10 +3,137 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentInput = '';
   let isInRadianMode = true;
 
+  // 初始化国际化
+  i18n.initLocale();
+  
+  // 更新 UI 文本
+  updateUITranslations();
+  
+  // 设置语言选择器的当前值
+  const localeSelect = document.getElementById('locale-select');
+  localeSelect.value = i18n.getCurrentLocale();
+  
+  // 绑定语言选择器变化事件
+  localeSelect.addEventListener('change', function() {
+    i18n.setLocale(this.value);
+    // UI 更新由 i18n.setLocale 内部的事件监听器处理
+  });
+  
+  // 监听语言变化事件
+  document.addEventListener('localeChanged', function(e) {
+    updateUITranslations();
+  });
+  
+  // 更新 UI 文本的函数
+  function updateUITranslations() {
+    // 更新文档标题
+    document.title = i18n.getTranslation('title');
+    
+    // 更新所有带有 data-i18n 属性的元素
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+      const key = element.getAttribute('data-i18n');
+      element.textContent = i18n.getTranslation(key);
+    });
+    
+    // 特殊情况：Rad/Deg 按钮
+    const radDegButton = document.querySelector('[data-value="rad_deg"]');
+    radDegButton.textContent = isInRadianMode ? i18n.getTranslation('rad') : i18n.getTranslation('deg');
+  }
+
   // Add event listeners to all buttons
   document.querySelectorAll('button').forEach(button => {
     button.addEventListener('click', handleButtonClick);
   });
+
+  // Add keyboard event listener
+  document.addEventListener('keydown', handleKeyPress);
+  
+  // Help button functionality
+  const helpIcon = document.getElementById('helpIcon');
+  const keyboardHelp = document.getElementById('keyboardHelp');
+  const closeHelp = document.getElementById('closeHelp');
+  
+  // Show help panel when clicking the help icon
+  helpIcon.addEventListener('click', function() {
+    keyboardHelp.classList.add('show');
+  });
+  
+  // Hide help panel when clicking the close button
+  closeHelp.addEventListener('click', function() {
+    keyboardHelp.classList.remove('show');
+  });
+  
+  // Hide help panel when pressing Escape while it's open
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && keyboardHelp.classList.contains('show')) {
+      keyboardHelp.classList.remove('show');
+      e.stopPropagation(); // Prevent the calculator clear action
+    }
+  });
+
+  // Handle keyboard input
+  function handleKeyPress(e) {
+    // Skip handling keyboard input if help is shown
+    if (keyboardHelp.classList.contains('show')) {
+      return;
+    }
+    
+    e.preventDefault(); // Prevent default action for some keys
+
+    // Numbers, decimal point, operators
+    if (/^[0-9.+\-*/()^]$/.test(e.key)) {
+      appendToDisplay(e.key);
+    } 
+    // Enter key for equals
+    else if (e.key === 'Enter') {
+      calculateResult();
+    } 
+    // Backspace for deleting last character
+    else if (e.key === 'Backspace') {
+      if (currentInput.length > 0) {
+        currentInput = currentInput.slice(0, -1);
+        result.value = currentInput;
+      }
+    } 
+    // Escape key for clear
+    else if (e.key === 'Escape') {
+      clearDisplay();
+    }
+    // Function keys
+    else if (e.key === 's') {
+      // 自动切换到度数模式
+      switchToDegreeMode();
+      handleFunction('sin');
+    }
+    else if (e.key === 'c') {
+      // 自动切换到度数模式
+      switchToDegreeMode();
+      handleFunction('cos');
+    }
+    else if (e.key === 't') {
+      // 自动切换到度数模式
+      switchToDegreeMode();
+      handleFunction('tan');
+    }
+    else if (e.key === 'l') {
+      handleFunction('log');
+    }
+    else if (e.key === 'r') {
+      handleFunction('sqrt');
+    }
+    // Toggle Radian/Degree with 'd'
+    else if (e.key === 'd') {
+      toggleRadianDegree();
+    }
+    // Pi with 'p'
+    else if (e.key === 'p') {
+      appendToDisplay(Math.PI);
+    }
+    // e with 'e'
+    else if (e.key === 'e') {
+      appendToDisplay(Math.E);
+    }
+  }
 
   function handleButtonClick(e) {
     const value = e.target.getAttribute('data-value');
@@ -43,10 +170,24 @@ document.addEventListener('DOMContentLoaded', function() {
   function toggleRadianDegree() {
     isInRadianMode = !isInRadianMode;
     const radDegButton = document.querySelector('[data-value="rad_deg"]');
-    radDegButton.textContent = isInRadianMode ? 'Rad' : 'Deg';
+    radDegButton.textContent = isInRadianMode ? i18n.getTranslation('rad') : i18n.getTranslation('deg');
+  }
+
+  // 对于三角函数的辅助函数，用于自动切换到度数模式
+  function switchToDegreeMode() {
+    if (isInRadianMode) {
+      isInRadianMode = false;
+      const radDegButton = document.querySelector('[data-value="rad_deg"]');
+      radDegButton.textContent = i18n.getTranslation('deg');
+    }
   }
 
   function handleFunction(func) {
+    // 对于三角函数，自动切换到度数模式
+    if ((func === 'sin' || func === 'cos' || func === 'tan') && isInRadianMode) {
+      switchToDegreeMode();
+    }
+    
     switch (func) {
       case 'sin':
         appendToDisplay('sin(');
@@ -87,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
       result.value = formattedResult;
       currentInput = formattedResult;
     } catch (error) {
-      result.value = 'Error';
+      result.value = i18n.getTranslation('error');
       currentInput = '';
       console.error('Calculation error:', error);
     }
@@ -239,5 +380,5 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize rad/deg button state
   const radDegButton = document.querySelector('[data-value="rad_deg"]');
-  radDegButton.textContent = isInRadianMode ? 'Rad' : 'Deg';
+  radDegButton.textContent = isInRadianMode ? i18n.getTranslation('rad') : i18n.getTranslation('deg');
 }); 
