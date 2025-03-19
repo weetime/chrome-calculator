@@ -334,6 +334,11 @@ button:active {
   background: linear-gradient(145deg, #c3e6cb, #a5d2b1);
 }
 
+.theme-blackFlame {
+  background: linear-gradient(145deg, #121212, #000000);
+  border: 1px solid rgba(255, 107, 8, 0.3);
+}
+
 /* 语言部分样式 */
 .language-section {
   margin-bottom: 20px;

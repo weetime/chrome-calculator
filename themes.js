@@ -165,6 +165,39 @@ const themes = {
     selectBg: '#fff',
     selectBorder: 'rgba(44, 92, 60, 0.15)',
     selectText: '#2c5c3c'
+  },
+  
+  // 黑色火焰主题 (Black Flame)
+  'blackFlame': {
+    name: 'blackFlame',
+    bg: 'linear-gradient(145deg, #121212, #000000)',
+    displayBg: 'rgba(18, 18, 18, 0.9)',
+    textColor: '#ff6b08',
+    titleColor: '#ff6b08',
+    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), inset 1px 1px 1px rgba(255, 255, 255, 0.05), inset -1px -1px 1px rgba(0, 0, 0, 0.5)',
+    innerShadow: 'inset 0 2px 5px rgba(0, 0, 0, 0.5)',
+    // 按钮颜色
+    numBtnBg: 'linear-gradient(145deg, #1e1e1e, #121212)',
+    numBtnText: '#e0e0e0',
+    operationBtnBg: 'linear-gradient(145deg, #ff6b08, #ff4500)',
+    operationBtnText: 'white',
+    functionBtnBg: 'linear-gradient(145deg, #404040, #2a2a2a)',
+    functionBtnText: '#ff6b08',
+    equalsBtnBg: 'linear-gradient(145deg, #ff4500, #ff0000)',
+    equalsBtnText: 'white',
+    // 帮助相关
+    helpBg: 'rgba(18, 18, 18, 0.97)',
+    headerBg: 'rgba(18, 18, 18, 0.95)',
+    sectionHeaderColor: '#ff6b08',
+    helpTextColor: '#e0e0e0',
+    dividerColor: 'rgba(255, 255, 255, 0.1)',
+    keyBg: 'linear-gradient(145deg, #1e1e1e, #121212)',
+    keyBorder: 'rgba(255, 107, 8, 0.3)',
+    keyText: '#e0e0e0',
+    // 语言选择器
+    selectBg: '#121212',
+    selectBorder: 'rgba(255, 107, 8, 0.3)',
+    selectText: '#e0e0e0'
   }
 };
 
