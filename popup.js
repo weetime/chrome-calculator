@@ -124,6 +124,15 @@ function initThemeSelector() {
 
 // 处理按钮点击
 function handleButtonClick(value) {
+  // 对于三角函数，自动切换到度数模式
+  if (value.startsWith('sin(') || value.startsWith('cos(') || value.startsWith('tan(')) {
+    if (isRadMode) {
+      isRadMode = false;
+      updateModeButtonText();
+      localStorage.setItem('calculatorMode', 'deg');
+    }
+  }
+  
   switch(value) {
     case 'clear':
       clearDisplay();
@@ -152,6 +161,15 @@ function handleKeyPress(e) {
     return;
   }
   
+  // 三角函数自动切换到度数模式
+  if (key === 's' || key === 'c' || key === 't') {
+    if (isRadMode) {
+      isRadMode = false;
+      updateModeButtonText();
+      localStorage.setItem('calculatorMode', 'deg');
+    }
+  }
+  
   // 数字和基本运算符
   if (/[\d+\-*/^.()]/.test(key)) {
     appendToDisplay(key);
@@ -174,23 +192,23 @@ function handleKeyPress(e) {
   }
   // 三角函数和其他功能
   else if (key === 's') {
-    appendToDisplay('sin');
+    appendToDisplay('sin(');
     e.preventDefault();
   } 
   else if (key === 'c') {
-    appendToDisplay('cos');
+    appendToDisplay('cos(');
     e.preventDefault();
   } 
   else if (key === 't') {
-    appendToDisplay('tan');
+    appendToDisplay('tan(');
     e.preventDefault();
   } 
   else if (key === 'l') {
-    appendToDisplay('log');
+    appendToDisplay('log(');
     e.preventDefault();
   } 
   else if (key === 'r') {
-    appendToDisplay('sqrt');
+    appendToDisplay('sqrt(');
     e.preventDefault();
   } 
   else if (key === 'd') {
@@ -285,9 +303,11 @@ function processExpression(expression) {
   });
   
   // 处理常规括号
-  expression = expression.replace(/\(([^()]*)\)/g, (match, content) => {
-    return processExpression(content);
-  });
+  while (expression.includes('(') && expression.includes(')')) {
+    expression = expression.replace(/\(([^()]*)\)/g, (match, content) => {
+      return processExpression(content);
+    });
+  }
   
   // 处理剩余的函数（不带括号）
   expression = processFunctions(expression);
