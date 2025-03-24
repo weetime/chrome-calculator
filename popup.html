@@ -7,108 +7,163 @@
 </head>
 <body>
   <div class="toolset">
-    <h1 class="toolset-title" data-i18n="toolset_title">Tool Suite</h1>
-    
-    <!-- Tool Navigation -->
-    <div class="tool-nav">
-      <button class="nav-btn active" data-tool="calculator" data-i18n="calculator_tool">Calculator</button>
-      <button class="nav-btn" data-tool="unit-converter" data-i18n="unit_converter_tool">Unit Converter</button>
+    <div class="header-container">
+      <div class="back-button" id="back-to-home" style="display: none;">←</div>
+      <h1 class="toolset-title" data-i18n="toolset_title">Tool Suite</h1>
     </div>
     
-    <!-- Calculator Tool Card -->
-    <div class="tool-card active" id="calculator-card">
-      <div class="card-header">
-        <h2 data-i18n="calculator">Calculator</h2>
-        <div class="display">
-          <input type="text" id="result" readonly>
+    <!-- Tool Homepage Grid Layout -->
+    <div class="tool-grid" id="tool-homepage">
+      <!-- Calculator Tool Card -->
+      <div class="grid-card" data-tool="calculator">
+        <div class="card-front">
+          <div class="card-thumbnail calculator-thumbnail">
+            <span class="thumbnail-icon">🧮</span>
+          </div>
+          <h3 data-i18n="calculator">Calculator</h3>
+          <p class="card-description" data-i18n="calculator_description">Scientific calculator with keyboard shortcuts</p>
+        </div>
+        <div class="card-back">
+          <!-- Calculator content will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Unit Converter Tool Card -->
+      <div class="grid-card" data-tool="unit-converter">
+        <div class="card-front">
+          <div class="card-thumbnail unit-converter-thumbnail">
+            <span class="thumbnail-icon">📏</span>
+          </div>
+          <h3 data-i18n="unit_converter">Unit Converter</h3>
+          <p class="card-description" data-i18n="unit_converter_description">Convert between different units of measurement</p>
+        </div>
+        <div class="card-back">
+          <!-- Unit Converter content will be loaded here -->
         </div>
       </div>
       
-      <div class="buttons">
-        <div class="row">
-          <button class="function-btn" data-value="sin(">sin(</button>
-          <button class="function-btn" data-value="cos(">cos(</button>
-          <button class="function-btn" data-value="tan(">tan(</button>
-          <button class="function-btn" data-value="log(">log(</button>
+      <!-- Placeholder for future tools -->
+      <div class="grid-card coming-soon">
+        <div class="card-front">
+          <div class="card-thumbnail coming-soon-thumbnail">
+            <span class="thumbnail-icon">🔜</span>
+          </div>
+          <h3 data-i18n="coming_soon">Coming Soon</h3>
+          <p class="card-description" data-i18n="coming_soon_description">More tools are on the way</p>
         </div>
-        <div class="row">
-          <button class="function-btn" data-value="sqrt(">√(</button>
-          <button class="function-btn" data-value="^">x<sup>y</sup></button>
-          <button class="function-btn" data-value="(">(</button>
-          <button class="function-btn" data-value=")">)</button>
-        </div>
-        <div class="row">
-          <button class="num-btn" data-value="7">7</button>
-          <button class="num-btn" data-value="8">8</button>
-          <button class="num-btn" data-value="9">9</button>
-          <button class="operation-btn" data-value="/">÷</button>
-        </div>
-        <div class="row">
-          <button class="num-btn" data-value="4">4</button>
-          <button class="num-btn" data-value="5">5</button>
-          <button class="num-btn" data-value="6">6</button>
-          <button class="operation-btn" data-value="*">×</button>
-        </div>
-        <div class="row">
-          <button class="num-btn" data-value="1">1</button>
-          <button class="num-btn" data-value="2">2</button>
-          <button class="num-btn" data-value="3">3</button>
-          <button class="operation-btn" data-value="-">−</button>
-        </div>
-        <div class="row">
-          <button class="num-btn" data-value="0">0</button>
-          <button class="num-btn" data-value=".">.</button>
-          <button class="function-btn" data-value="clear" data-i18n="clear">C</button>
-          <button class="operation-btn" data-value="+">+</button>
-        </div>
-        <div class="row">
-          <button class="function-btn" data-value="pi">π</button>
-          <button class="function-btn" data-value="e">e</button>
-          <button class="function-btn" data-value="rad_deg" data-i18n="rad">Rad</button>
-          <button class="equals-btn" data-value="equals">=</button>
+      </div>
+      
+      <div class="grid-card coming-soon">
+        <div class="card-front">
+          <div class="card-thumbnail coming-soon-thumbnail">
+            <span class="thumbnail-icon">🔜</span>
+          </div>
+          <h3 data-i18n="coming_soon">Coming Soon</h3>
+          <p class="card-description" data-i18n="coming_soon_description">More tools are on the way</p>
         </div>
       </div>
     </div>
     
-    <!-- Unit Converter Tool Card -->
-    <div class="tool-card" id="unit-converter-card">
-      <div class="card-header">
-        <h2 data-i18n="unit_converter">Unit Converter</h2>
-      </div>
-      
-      <div class="unit-content">
-        <div class="unit-input">
-          <input type="number" id="unitInput" placeholder="0">
-        </div>
-        <div class="unit-selection">
-          <select id="conversionType">
-            <option value="length" data-i18n="length">Length</option>
-            <option value="weight" data-i18n="weight">Weight</option>
-            <option value="temperature" data-i18n="temperature">Temperature</option>
-            <option value="area" data-i18n="area">Area</option>
-            <option value="volume" data-i18n="volume">Volume</option>
-            <option value="speed" data-i18n="speed">Speed</option>
-            <option value="time" data-i18n="time">Time</option>
-          </select>
-        </div>
-        <div class="unit-from-to">
-          <div class="unit-from">
-            <label data-i18n="from">From:</label>
-            <select id="fromUnit"></select>
+    <!-- Tool View (Hidden initially) -->
+    <div class="tool-view" id="tool-view" style="display: none;">      
+      <!-- Tool Content Container -->
+      <div class="tool-content" id="tool-content">
+        <!-- Calculator Tool Card -->
+        <div class="tool-card" id="calculator-card">
+          <div class="card-header">
+            <h2 data-i18n="calculator">Calculator</h2>
+            <div class="display">
+              <input type="text" id="result" readonly>
+            </div>
           </div>
-          <div class="swap-units" id="swapUnits">⇄</div>
-          <div class="unit-to">
-            <label data-i18n="to">To:</label>
-            <select id="toUnit"></select>
+          
+          <div class="buttons">
+            <div class="row">
+              <button class="function-btn" data-value="sin(">sin(</button>
+              <button class="function-btn" data-value="cos(">cos(</button>
+              <button class="function-btn" data-value="tan(">tan(</button>
+              <button class="function-btn" data-value="log(">log(</button>
+            </div>
+            <div class="row">
+              <button class="function-btn" data-value="sqrt(">√(</button>
+              <button class="function-btn" data-value="^">x<sup>y</sup></button>
+              <button class="function-btn" data-value="(">(</button>
+              <button class="function-btn" data-value=")">)</button>
+            </div>
+            <div class="row">
+              <button class="num-btn" data-value="7">7</button>
+              <button class="num-btn" data-value="8">8</button>
+              <button class="num-btn" data-value="9">9</button>
+              <button class="operation-btn" data-value="/">÷</button>
+            </div>
+            <div class="row">
+              <button class="num-btn" data-value="4">4</button>
+              <button class="num-btn" data-value="5">5</button>
+              <button class="num-btn" data-value="6">6</button>
+              <button class="operation-btn" data-value="*">×</button>
+            </div>
+            <div class="row">
+              <button class="num-btn" data-value="1">1</button>
+              <button class="num-btn" data-value="2">2</button>
+              <button class="num-btn" data-value="3">3</button>
+              <button class="operation-btn" data-value="-">−</button>
+            </div>
+            <div class="row">
+              <button class="num-btn" data-value="0">0</button>
+              <button class="num-btn" data-value=".">.</button>
+              <button class="function-btn" data-value="clear" data-i18n="clear">C</button>
+              <button class="operation-btn" data-value="+">+</button>
+            </div>
+            <div class="row">
+              <button class="function-btn" data-value="pi">π</button>
+              <button class="function-btn" data-value="e">e</button>
+              <button class="function-btn" data-value="rad_deg" data-i18n="rad">Rad</button>
+              <button class="equals-btn" data-value="equals">=</button>
+            </div>
           </div>
         </div>
-        <div class="unit-result">
-          <div class="result-display">
-            <span id="conversionResult">0</span>
+        
+        <!-- Unit Converter Tool Card -->
+        <div class="tool-card" id="unit-converter-card">
+          <div class="card-header">
+            <h2 data-i18n="unit_converter">Unit Converter</h2>
           </div>
-          <div class="row">
-            <button class="copy-result" id="copyResult" data-i18n="copy_result">Copy</button>
-            <button class="send-to-calc" id="sendToCalc" data-i18n="send_to_calc">Send to Calculator</button>
+          
+          <div class="unit-content">
+            <div class="unit-input">
+              <input type="number" id="unitInput" placeholder="0">
+            </div>
+            <div class="unit-selection">
+              <select id="conversionType">
+                <option value="length" data-i18n="length">Length</option>
+                <option value="weight" data-i18n="weight">Weight</option>
+                <option value="temperature" data-i18n="temperature">Temperature</option>
+                <option value="area" data-i18n="area">Area</option>
+                <option value="volume" data-i18n="volume">Volume</option>
+                <option value="speed" data-i18n="speed">Speed</option>
+                <option value="time" data-i18n="time">Time</option>
+              </select>
+            </div>
+            <div class="unit-from-to">
+              <div class="unit-from">
+                <label data-i18n="from">From:</label>
+                <select id="fromUnit"></select>
+              </div>
+              <div class="swap-units" id="swapUnits">⇄</div>
+              <div class="unit-to">
+                <label data-i18n="to">To:</label>
+                <select id="toUnit"></select>
+              </div>
+            </div>
+            <div class="unit-result">
+              <div class="result-display">
+                <span id="conversionResult">0</span>
+              </div>
+              <div class="row">
+                <button class="copy-result" id="copyResult" data-i18n="copy_result">Copy</button>
+                <button class="send-to-calc" id="sendToCalc" data-i18n="send_to_calc">Send to Calculator</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

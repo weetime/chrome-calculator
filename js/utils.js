@@ -40,26 +40,24 @@ export function initThemeSelector() {
   });
 }
 
-// 工具切换函数
-export function switchTool(toolName, calculatorValue = null) {
+// 显示特定工具
+export function showTool(toolName) {
   // 更新当前工具
   window.currentTool = toolName;
   
-  // 更新导航按钮样式
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    if (btn.getAttribute('data-tool') === toolName) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
-  });
+  // 显示返回按钮
+  document.getElementById('back-to-home').style.display = 'flex';
+  
+  // 隐藏首页网格，显示工具视图
+  document.getElementById('tool-homepage').style.display = 'none';
+  document.getElementById('tool-view').style.display = 'block';
   
   // 显示对应的工具卡片
   document.querySelectorAll('.tool-card').forEach(card => {
     if (card.id === `${toolName}-card`) {
-      card.classList.add('active');
+      card.style.display = 'block';
     } else {
-      card.classList.remove('active');
+      card.style.display = 'none';
     }
   });
   
@@ -67,24 +65,24 @@ export function switchTool(toolName, calculatorValue = null) {
   if (toolName === 'calculator') {
     document.getElementById('result').focus();
   } else if (toolName === 'unit-converter') {
-    const unitInput = document.getElementById('unitInput');
-    
-    // 当切换到单位转换器时，如果计算器有值，则传递过来
-    if (calculatorValue) {
-      try {
-        // 尝试解析为数字
-        if (!isNaN(parseFloat(calculatorValue))) {
-          unitInput.value = parseFloat(calculatorValue);
-          // 如果单位转换模块已加载，执行转换
-          if (typeof performConversion === 'function') {
-            performConversion();
-          }
-        }
-      } catch (e) {
-        // 无法解析为数字时，保持默认
-      }
-    }
-    
-    unitInput.focus();
+    document.getElementById('unitInput').focus();
   }
+}
+
+// 返回首页
+export function goBackToHome() {
+  // 更新当前工具
+  window.currentTool = 'home';
+  
+  // 隐藏返回按钮
+  document.getElementById('back-to-home').style.display = 'none';
+  
+  // 显示首页网格，隐藏工具视图
+  document.getElementById('tool-homepage').style.display = 'grid';
+  document.getElementById('tool-view').style.display = 'none';
+  
+  // 如果有翻转的卡片，将其恢复
+  document.querySelectorAll('.grid-card.flipped').forEach(card => {
+    card.classList.remove('flipped');
+  });
 }
