@@ -12,6 +12,16 @@ const translations = {
   'en': {
     // 界面文本
     'title': 'Scientific Calculator',
+    'toolset_title': 'Tool Suite',
+    'calculator': 'Calculator',
+    'calculator_tool': 'Calculator',
+    'unit_converter': 'Unit Converter',
+    'unit_converter_tool': 'Unit Converter',
+    'tools': 'Tools',
+    'switch_to_calculator': 'Switch to Calculator (Cmd+1/Ctrl+1)',
+    'switch_to_unit_converter': 'Switch to Unit Converter (Cmd+2/Ctrl+2)',
+    'copy_result': 'Copy',
+    'send_to_calc': 'Send to Calculator',
     'rad_deg': 'Rad|Deg',
     'rad': 'Rad',
     'deg': 'Deg',
@@ -52,13 +62,98 @@ const translations = {
     'error': 'Error',
     // 语言选择
     'language': 'Language',
-    'theme': 'Theme'
+    'theme': 'Theme',
+    // 单位转换
+    'unit_conversion': 'Units',
+    'unit_conversion_title': 'Unit Conversion',
+    'length': 'Length',
+    'weight': 'Weight',
+    'temperature': 'Temperature',
+    'area': 'Area',
+    'volume': 'Volume',
+    'speed': 'Speed',
+    'time': 'Time',
+    'from': 'From:',
+    'to': 'To:',
+    'apply_result': 'Apply',
+    'open_unit_conversion': 'Open unit conversion panel',
+    // 单位
+    // 长度
+    'millimeter': 'millimeter',
+    'centimeter': 'centimeter',
+    'meter': 'meter',
+    'kilometer': 'kilometer',
+    'inch': 'inch',
+    'foot': 'foot',
+    'yard': 'yard',
+    'mile': 'mile',
+    
+    // 重量
+    'milligram': 'milligram',
+    'gram': 'gram',
+    'kilogram': 'kilogram',
+    'ton': 'ton',
+    'ounce': 'ounce',
+    'pound': 'pound',
+    'stone': 'stone',
+    
+    // 温度
+    'celsius': 'Celsius',
+    'fahrenheit': 'Fahrenheit',
+    'kelvin': 'Kelvin',
+    
+    // 面积
+    'square_millimeter': 'square millimeter',
+    'square_centimeter': 'square centimeter',
+    'square_meter': 'square meter',
+    'square_kilometer': 'square kilometer',
+    'square_inch': 'square inch',
+    'square_foot': 'square foot',
+    'acre': 'acre',
+    'hectare': 'hectare',
+    
+    // 体积
+    'milliliter': 'milliliter',
+    'liter': 'liter',
+    'cubic_meter': 'cubic meter',
+    'gallon': 'gallon',
+    'pint': 'pint',
+    'quart': 'quart',
+    'fluid_ounce': 'fluid ounce',
+    'cup': 'cup',
+    
+    // 速度
+    'meter_per_second': 'meter per second',
+    'kilometer_per_hour': 'kilometer per hour',
+    'mile_per_hour': 'mile per hour',
+    'knot': 'knot',
+    'foot_per_second': 'foot per second',
+    
+    // 时间
+    'millisecond': 'millisecond',
+    'second': 'second',
+    'minute': 'minute',
+    'hour': 'hour',
+    'day': 'day',
+    'week': 'week',
+    'month': 'month',
+    'year': 'year'
   },
   
   // 中文 (Chinese)
   'zh': {
     // 界面文本
     'title': '科学计算器',
+    'toolset_title': '工具集',
+    'calculator': '计算器',
+    'calculator_tool': '计算器',
+    'unit_converter': '单位转换',
+    'unit_converter_tool': '单位转换',
+    'tools': '工具',
+    'switch_to_calculator': '切换到计算器 (Cmd+1/Ctrl+1)',
+    'switch_to_unit_converter': '切换到单位转换 (Cmd+2/Ctrl+2)',
+    'copy_result': '复制',
+    'send_to_calc': '发送到计算器',
     'rad_deg': '弧度|角度',
     'rad': '弧度',
     'deg': '角度',
@@ -99,13 +194,98 @@ const translations = {
     'error': '错误',
     // 语言选择
     'language': '语言',
-    'theme': '主题'
+    'theme': '主题',
+    // 单位转换
+    'unit_conversion': '单位转换',
+    'unit_conversion_title': '单位转换',
+    'length': '长度',
+    'weight': '重量',
+    'temperature': '温度',
+    'area': '面积',
+    'volume': '体积',
+    'speed': '速度',
+    'time': '时间',
+    'from': '从:',
+    'to': '到:',
+    'apply_result': '应用',
+    'open_unit_conversion': '打开单位转换面板',
+    // 单位
+    // 长度
+    'millimeter': '毫米',
+    'centimeter': '厘米',
+    'meter': '米',
+    'kilometer': '千米',
+    'inch': '英寸',
+    'foot': '英尺',
+    'yard': '码',
+    'mile': '英里',
+    
+    // 重量
+    'milligram': '毫克',
+    'gram': '克',
+    'kilogram': '千克',
+    'ton': '吨',
+    'ounce': '盎司',
+    'pound': '磅',
+    'stone': '英石',
+    
+    // 温度
+    'celsius': '摄氏度',
+    'fahrenheit': '华氏度',
+    'kelvin': '开尔文',
+    
+    // 面积
+    'square_millimeter': '平方毫米',
+    'square_centimeter': '平方厘米',
+    'square_meter': '平方米',
+    'square_kilometer': '平方千米',
+    'square_inch': '平方英寸',
+    'square_foot': '平方英尺',
+    'acre': '英亩',
+    'hectare': '公顷',
+    
+    // 体积
+    'milliliter': '毫升',
+    'liter': '升',
+    'cubic_meter': '立方米',
+    'gallon': '加仑',
+    'pint': '品脱',
+    'quart': '夸脱',
+    'fluid_ounce': '液量盎司',
+    'cup': '杯',
+    
+    // 速度
+    'meter_per_second': '米/秒',
+    'kilometer_per_hour': '千米/小时',
+    'mile_per_hour': '英里/小时',
+    'knot': '节',
+    'foot_per_second': '英尺/秒',
+    
+    // 时间
+    'millisecond': '毫秒',
+    'second': '秒',
+    'minute': '分钟',
+    'hour': '小时',
+    'day': '天',
+    'week': '周',
+    'month': '月',
+    'year': '年'
   },
   
   // 西班牙语 (Spanish)
   'es': {
     // 界面文本
     'title': 'Calculadora Científica',
+    'toolset_title': 'Suite de Herramientas',
+    'calculator': 'Calculadora',
+    'calculator_tool': 'Calculadora',
+    'unit_converter': 'Conversor de Unidades',
+    'unit_converter_tool': 'Conversor',
+    'tools': 'Herramientas',
+    'switch_to_calculator': 'Cambiar a Calculadora (Cmd+1/Ctrl+1)',
+    'switch_to_unit_converter': 'Cambiar a Conversor de Unidades (Cmd+2/Ctrl+2)',
+    'copy_result': 'Copiar',
+    'send_to_calc': 'Enviar a Calculadora',
     'rad_deg': 'Rad|Grados',
     'rad': 'Rad',
     'deg': 'Grados',
@@ -146,13 +326,98 @@ const translations = {
     'error': 'Error',
     // 语言选择
     'language': 'Idioma',
-    'theme': 'Tema'
+    'theme': 'Tema',
+    // 单位转换
+    'unit_conversion': 'Unidades',
+    'unit_conversion_title': 'Conversión de Unidades',
+    'length': 'Longitud',
+    'weight': 'Peso',
+    'temperature': 'Temperatura',
+    'area': 'Área',
+    'volume': 'Volumen',
+    'speed': 'Velocidad',
+    'time': 'Tiempo',
+    'from': 'De:',
+    'to': 'A:',
+    'apply_result': 'Aplicar',
+    'open_unit_conversion': 'Abrir panel de conversión de unidades',
+    // 单位
+    // 长度
+    'millimeter': 'milímetro',
+    'centimeter': 'centímetro',
+    'meter': 'metro',
+    'kilometer': 'kilómetro',
+    'inch': 'pulgada',
+    'foot': 'pie',
+    'yard': 'yarda',
+    'mile': 'milla',
+    
+    // 重量
+    'milligram': 'miligramo',
+    'gram': 'gramo',
+    'kilogram': 'kilogramo',
+    'ton': 'tonelada',
+    'ounce': 'onza',
+    'pound': 'libra',
+    'stone': 'stone',
+    
+    // 温度
+    'celsius': 'Celsius',
+    'fahrenheit': 'Fahrenheit',
+    'kelvin': 'Kelvin',
+    
+    // 面积
+    'square_millimeter': 'milímetro cuadrado',
+    'square_centimeter': 'centímetro cuadrado',
+    'square_meter': 'metro cuadrado',
+    'square_kilometer': 'kilómetro cuadrado',
+    'square_inch': 'pulgada cuadrada',
+    'square_foot': 'pie cuadrado',
+    'acre': 'acre',
+    'hectare': 'hectárea',
+    
+    // 体积
+    'milliliter': 'mililitro',
+    'liter': 'litro',
+    'cubic_meter': 'metro cúbico',
+    'gallon': 'galón',
+    'pint': 'pinta',
+    'quart': 'cuarto',
+    'fluid_ounce': 'onza líquida',
+    'cup': 'taza',
+    
+    // 速度
+    'meter_per_second': 'metro por segundo',
+    'kilometer_per_hour': 'kilómetro por hora',
+    'mile_per_hour': 'milla por hora',
+    'knot': 'nudo',
+    'foot_per_second': 'pie por segundo',
+    
+    // 时间
+    'millisecond': 'milisegundo',
+    'second': 'segundo',
+    'minute': 'minuto',
+    'hour': 'hora',
+    'day': 'día',
+    'week': 'semana',
+    'month': 'mes',
+    'year': 'año'
   },
   
   // 法语 (French)
   'fr': {
     // 界面文本
     'title': 'Calculatrice Scientifique',
+    'toolset_title': 'Suite d\'Outils',
+    'calculator': 'Calculatrice',
+    'calculator_tool': 'Calculatrice',
+    'unit_converter': 'Convertisseur d\'Unités',
+    'unit_converter_tool': 'Convertisseur',
+    'tools': 'Outils',
+    'switch_to_calculator': 'Passer à la Calculatrice (Cmd+1/Ctrl+1)',
+    'switch_to_unit_converter': 'Passer au Convertisseur (Cmd+2/Ctrl+2)',
+    'copy_result': 'Copier',
+    'send_to_calc': 'Envoyer à la Calculatrice',
     'rad_deg': 'Rad|Deg',
     'rad': 'Rad',
     'deg': 'Deg',
@@ -193,13 +458,98 @@ const translations = {
     'error': 'Erreur',
     // 语言选择
     'language': 'Langue',
-    'theme': 'Thème'
+    'theme': 'Thème',
+    // 单位转换
+    'unit_conversion': 'Unités',
+    'unit_conversion_title': 'Conversion d\'Unités',
+    'length': 'Longueur',
+    'weight': 'Poids',
+    'temperature': 'Température',
+    'area': 'Superficie',
+    'volume': 'Volume',
+    'speed': 'Vitesse',
+    'time': 'Temps',
+    'from': 'De:',
+    'to': 'À:',
+    'apply_result': 'Appliquer',
+    'open_unit_conversion': 'Ouvrir le panneau de conversion d\'unités',
+    // 单位
+    // 长度
+    'millimeter': 'millimètre',
+    'centimeter': 'centimètre',
+    'meter': 'mètre',
+    'kilometer': 'kilomètre',
+    'inch': 'pouce',
+    'foot': 'pied',
+    'yard': 'yard',
+    'mile': 'mile',
+    
+    // 重量
+    'milligram': 'milligramme',
+    'gram': 'gramme',
+    'kilogram': 'kilogramme',
+    'ton': 'tonne',
+    'ounce': 'once',
+    'pound': 'livre',
+    'stone': 'stone',
+    
+    // 温度
+    'celsius': 'Celsius',
+    'fahrenheit': 'Fahrenheit',
+    'kelvin': 'Kelvin',
+    
+    // 面积
+    'square_millimeter': 'millimètre carré',
+    'square_centimeter': 'centimètre carré',
+    'square_meter': 'mètre carré',
+    'square_kilometer': 'kilomètre carré',
+    'square_inch': 'pouce carré',
+    'square_foot': 'pied carré',
+    'acre': 'acre',
+    'hectare': 'hectare',
+    
+    // 体积
+    'milliliter': 'millilitre',
+    'liter': 'litre',
+    'cubic_meter': 'mètre cube',
+    'gallon': 'gallon',
+    'pint': 'pinte',
+    'quart': 'quart',
+    'fluid_ounce': 'once liquide',
+    'cup': 'tasse',
+    
+    // 速度
+    'meter_per_second': 'mètre par seconde',
+    'kilometer_per_hour': 'kilomètre par heure',
+    'mile_per_hour': 'mile par heure',
+    'knot': 'nœud',
+    'foot_per_second': 'pied par seconde',
+    
+    // 时间
+    'millisecond': 'milliseconde',
+    'second': 'seconde',
+    'minute': 'minute',
+    'hour': 'heure',
+    'day': 'jour',
+    'week': 'semaine',
+    'month': 'mois',
+    'year': 'an'
   },
   
   // 日语 (Japanese)
   'ja': {
     // 界面文本
     'title': '科学電卓',
+    'toolset_title': 'ツールスイート',
+    'calculator': '電卓',
+    'calculator_tool': '電卓',
+    'unit_converter': '単位変換',
+    'unit_converter_tool': '単位変換',
+    'tools': 'ツール',
+    'switch_to_calculator': '電卓に切り替え (Cmd+1/Ctrl+1)',
+    'switch_to_unit_converter': '単位変換に切り替え (Cmd+2/Ctrl+2)',
+    'copy_result': 'コピー',
+    'send_to_calc': '電卓に送信',
     'rad_deg': 'ラジアン|度',
     'rad': 'ラジアン',
     'deg': '度',
@@ -240,7 +590,82 @@ const translations = {
     'error': 'エラー',
     // 语言选择
     'language': '言語',
-    'theme': 'テーマ'
+    'theme': 'テーマ',
+    // 单位转换
+    'unit_conversion': '単位変換',
+    'unit_conversion_title': '単位変換',
+    'length': '長さ',
+    'weight': '重量',
+    'temperature': '温度',
+    'area': '面積',
+    'volume': '体積',
+    'speed': '速度',
+    'time': '時間',
+    'from': 'から:',
+    'to': 'へ:',
+    'apply_result': '適用',
+    'open_unit_conversion': '単位変換パネルを開く',
+    // 单位
+    // 长度
+    'millimeter': 'ミリメートル',
+    'centimeter': 'センチメートル',
+    'meter': 'メートル',
+    'kilometer': 'キロメートル',
+    'inch': 'インチ',
+    'foot': 'フィート',
+    'yard': 'ヤード',
+    'mile': 'マイル',
+    
+    // 重量
+    'milligram': 'ミリグラム',
+    'gram': 'グラム',
+    'kilogram': 'キログラム',
+    'ton': 'トン',
+    'ounce': 'オンス',
+    'pound': 'ポンド',
+    'stone': 'ストーン',
+    
+    // 温度
+    'celsius': '摂氏',
+    'fahrenheit': '華氏',
+    'kelvin': 'ケルビン',
+    
+    // 面积
+    'square_millimeter': '平方ミリメートル',
+    'square_centimeter': '平方センチメートル',
+    'square_meter': '平方メートル',
+    'square_kilometer': '平方キロメートル',
+    'square_inch': '平方インチ',
+    'square_foot': '平方フィート',
+    'acre': 'エーカー',
+    'hectare': 'ヘクタール',
+    
+    // 体积
+    'milliliter': 'ミリリットル',
+    'liter': 'リットル',
+    'cubic_meter': '立方メートル',
+    'gallon': 'ガロン',
+    'pint': 'パイント',
+    'quart': 'クォート',
+    'fluid_ounce': '液量オンス',
+    'cup': 'カップ',
+    
+    // 速度
+    'meter_per_second': 'メートル毎秒',
+    'kilometer_per_hour': 'キロメートル毎時',
+    'mile_per_hour': 'マイル毎時',
+    'knot': 'ノット',
+    'foot_per_second': 'フィート毎秒',
+    
+    // 时间
+    'millisecond': 'ミリ秒',
+    'second': '秒',
+    'minute': '分',
+    'hour': '時間',
+    'day': '日',
+    'week': '週間',
+    'month': '月',
+    'year': '年'
   }
 };
 

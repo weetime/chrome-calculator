@@ -2,7 +2,7 @@
     "mcpServers": {
         "filesystem": {
             "command": "npx",
-            "args": ["-y", "@modelcontextprotocol/server-filesystem", "~/mcp/calculator"]
+            "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/fangyong/mcp/calculator"]
         }
     }
 }

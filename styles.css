@@ -32,6 +32,26 @@
   --select-bg: #fff;
   --select-border: rgba(0, 0, 0, 0.1);
   --select-text: #333;
+  
+  /* 工具集相关 */
+  --nav-btn-bg: linear-gradient(145deg, #f8f9fa, #dee0e3);
+  --nav-btn-text: #333;
+  --nav-btn-active-bg: linear-gradient(145deg, #64c6e6, #4aa5c1);
+  --nav-btn-active-text: white;
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-header-color: #4aa5c1;
+  
+  /* 单位转换相关 */
+  --unit-conversion-bg: rgba(255, 255, 255, 0.97);
+  --unit-header-bg: rgba(245, 247, 250, 0.8);
+  --unit-divider: rgba(0, 0, 0, 0.1);
+  --apply-btn-bg: linear-gradient(145deg, #6bd66c, #4bb04c);
+  --apply-btn-text: white;
+  --swap-btn-bg: linear-gradient(145deg, #64c6e6, #4aa5c1);
+  --swap-btn-text: white;
+  --result-display-bg: rgba(255, 255, 255, 0.9);
+  --copy-btn-bg: linear-gradient(145deg, #f8f9fa, #dee0e3);
+  --copy-btn-text: #333;
 }
 
 /* 全局设置 */
@@ -42,9 +62,9 @@ body {
   background-color: transparent;
 }
 
-/* 计算器容器 */
-.calculator {
-  width: 340px;
+/* 工具集容器 */
+.toolset {
+  width: 380px;
   background: var(--bg);
   border-radius: 16px;
   padding: 20px;
@@ -53,9 +73,9 @@ body {
   transition: all 0.3s ease;
 }
 
-/* 计算器标题 */
-.calculator-title {
-  font-size: 18px;
+/* 工具集标题 */
+.toolset-title {
+  font-size: 20px;
   font-weight: 500;
   text-align: center;
   margin: 0 0 15px 0;
@@ -64,9 +84,77 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* 计算器显示屏 */
-.display {
+/* 工具导航栏 */
+.tool-nav {
+  display: flex;
   margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn {
+  flex: 1;
+  padding: 12px 0;
+  background: var(--nav-btn-bg);
+  color: var(--nav-btn-text);
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.nav-btn:last-child {
+  border-right: none;
+}
+
+.nav-btn.active {
+  background: var(--nav-btn-active-bg);
+  color: var(--nav-btn-active-text);
+}
+
+.nav-btn:hover:not(.active) {
+  background: linear-gradient(145deg, #e3e5e8, #d1d3d6);
+}
+
+/* 工具卡片 */
+.tool-card {
+  display: none;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.tool-card.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.card-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.card-header h2 {
+  margin: 0 0 10px 0;
+  color: var(--card-header-color);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* 计算器工具样式 */
+.display {
+  margin-bottom: 15px;
   background: var(--display-bg);
   padding: 5px;
   border-radius: 10px;
@@ -109,6 +197,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 15px;
 }
 
 .row {
@@ -226,11 +315,6 @@ button:active {
               inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   transition: all 0.3s ease;
   animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 .help-header {
@@ -428,4 +512,201 @@ button:active {
 /* 当显示帮助时，显示键盘帮助 */
 .keyboard-help.show {
   display: block;
+}
+
+/* 单位转换工具样式 */
+
+/* 单位转换面板内容 */
+.unit-content {
+  padding: 20px;
+}
+
+/* 单位输入 */
+.unit-input {
+  margin-bottom: 15px;
+}
+
+.unit-input input {
+  width: 100%;
+  height: 50px;
+  font-size: 22px;
+  padding: 0 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--display-bg);
+  box-shadow: var(--inner-shadow);
+  color: var(--text-color);
+  text-align: right;
+  box-sizing: border-box;
+}
+
+.unit-input input:focus {
+  outline: none;
+}
+
+/* 单位类型选择 */
+.unit-selection {
+  margin-bottom: 15px;
+}
+
+.unit-selection select {
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  padding: 0 15px;
+  border: 1px solid var(--select-border);
+  border-radius: 10px;
+  background-color: var(--select-bg);
+  color: var(--select-text);
+  appearance: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23333' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+}
+
+.unit-selection select:focus {
+  outline: none;
+  border-color: var(--section-header-color);
+}
+
+/* 单位从/到选择 */
+.unit-from-to {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.unit-from, .unit-to {
+  flex: 1;
+}
+
+.unit-from label, .unit-to label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--help-text-color);
+}
+
+.unit-from select, .unit-to select {
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  padding: 0 15px;
+  border: 1px solid var(--select-border);
+  border-radius: 10px;
+  background-color: var(--select-bg);
+  color: var(--select-text);
+  appearance: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23333' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+}
+
+.unit-from select:focus, .unit-to select:focus {
+  outline: none;
+  border-color: var(--section-header-color);
+}
+
+/* 交换单位按钮 */
+.swap-units {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--swap-btn-bg);
+  color: var(--swap-btn-text);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 10px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  user-select: none;
+  margin-top: 20px;
+}
+
+.swap-units:hover {
+  transform: scale(1.05);
+}
+
+.swap-units:active {
+  transform: scale(0.95);
+}
+
+/* 结果区域 */
+.unit-result {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.result-display {
+  width: 100%;
+  background-color: var(--result-display-bg);
+  border-radius: 10px;
+  box-shadow: var(--inner-shadow);
+  padding: 15px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+}
+
+#conversionResult {
+  font-size: 18px;
+  color: var(--text-color);
+  font-family: 'Consolas', 'Courier New', monospace;
+  word-break: break-all;
+}
+
+/* 结果操作按钮 */
+.unit-result .row {
+  display: flex;
+  gap: 10px;
+}
+
+.copy-result {
+  height: 40px;
+  background: var(--copy-btn-bg);
+  color: var(--copy-btn-text);
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.copy-result:hover {
+  filter: brightness(1.05);
+}
+
+.send-to-calc {
+  height: 40px;
+  background: var(--apply-btn-bg);
+  color: var(--apply-btn-text);
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 2;
+}
+
+.send-to-calc:hover {
+  filter: brightness(1.05);
 } 

@@ -2,59 +2,115 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Scientific Calculator</title>
+  <title>Tool Suite</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="calculator">
-    <h1 class="calculator-title" data-i18n="title">Scientific Calculator</h1>
+  <div class="toolset">
+    <h1 class="toolset-title" data-i18n="toolset_title">Tool Suite</h1>
     
-    <div class="display">
-      <input type="text" id="result" readonly>
+    <!-- Tool Navigation -->
+    <div class="tool-nav">
+      <button class="nav-btn active" data-tool="calculator" data-i18n="calculator_tool">Calculator</button>
+      <button class="nav-btn" data-tool="unit-converter" data-i18n="unit_converter_tool">Unit Converter</button>
     </div>
     
-    <div class="buttons">
-      <div class="row">
-        <button class="function-btn" data-value="sin(">sin(</button>
-        <button class="function-btn" data-value="cos(">cos(</button>
-        <button class="function-btn" data-value="tan(">tan(</button>
-        <button class="function-btn" data-value="log(">log(</button>
+    <!-- Calculator Tool Card -->
+    <div class="tool-card active" id="calculator-card">
+      <div class="card-header">
+        <h2 data-i18n="calculator">Calculator</h2>
+        <div class="display">
+          <input type="text" id="result" readonly>
+        </div>
       </div>
-      <div class="row">
-        <button class="function-btn" data-value="sqrt(">√(</button>
-        <button class="function-btn" data-value="^">x<sup>y</sup></button>
-        <button class="function-btn" data-value="(">(</button>
-        <button class="function-btn" data-value=")">)</button>
+      
+      <div class="buttons">
+        <div class="row">
+          <button class="function-btn" data-value="sin(">sin(</button>
+          <button class="function-btn" data-value="cos(">cos(</button>
+          <button class="function-btn" data-value="tan(">tan(</button>
+          <button class="function-btn" data-value="log(">log(</button>
+        </div>
+        <div class="row">
+          <button class="function-btn" data-value="sqrt(">√(</button>
+          <button class="function-btn" data-value="^">x<sup>y</sup></button>
+          <button class="function-btn" data-value="(">(</button>
+          <button class="function-btn" data-value=")">)</button>
+        </div>
+        <div class="row">
+          <button class="num-btn" data-value="7">7</button>
+          <button class="num-btn" data-value="8">8</button>
+          <button class="num-btn" data-value="9">9</button>
+          <button class="operation-btn" data-value="/">÷</button>
+        </div>
+        <div class="row">
+          <button class="num-btn" data-value="4">4</button>
+          <button class="num-btn" data-value="5">5</button>
+          <button class="num-btn" data-value="6">6</button>
+          <button class="operation-btn" data-value="*">×</button>
+        </div>
+        <div class="row">
+          <button class="num-btn" data-value="1">1</button>
+          <button class="num-btn" data-value="2">2</button>
+          <button class="num-btn" data-value="3">3</button>
+          <button class="operation-btn" data-value="-">−</button>
+        </div>
+        <div class="row">
+          <button class="num-btn" data-value="0">0</button>
+          <button class="num-btn" data-value=".">.</button>
+          <button class="function-btn" data-value="clear" data-i18n="clear">C</button>
+          <button class="operation-btn" data-value="+">+</button>
+        </div>
+        <div class="row">
+          <button class="function-btn" data-value="pi">π</button>
+          <button class="function-btn" data-value="e">e</button>
+          <button class="function-btn" data-value="rad_deg" data-i18n="rad">Rad</button>
+          <button class="equals-btn" data-value="equals">=</button>
+        </div>
       </div>
-      <div class="row">
-        <button class="num-btn" data-value="7">7</button>
-        <button class="num-btn" data-value="8">8</button>
-        <button class="num-btn" data-value="9">9</button>
-        <button class="operation-btn" data-value="/">÷</button>
+    </div>
+    
+    <!-- Unit Converter Tool Card -->
+    <div class="tool-card" id="unit-converter-card">
+      <div class="card-header">
+        <h2 data-i18n="unit_converter">Unit Converter</h2>
       </div>
-      <div class="row">
-        <button class="num-btn" data-value="4">4</button>
-        <button class="num-btn" data-value="5">5</button>
-        <button class="num-btn" data-value="6">6</button>
-        <button class="operation-btn" data-value="*">×</button>
-      </div>
-      <div class="row">
-        <button class="num-btn" data-value="1">1</button>
-        <button class="num-btn" data-value="2">2</button>
-        <button class="num-btn" data-value="3">3</button>
-        <button class="operation-btn" data-value="-">−</button>
-      </div>
-      <div class="row">
-        <button class="num-btn" data-value="0">0</button>
-        <button class="num-btn" data-value=".">.</button>
-        <button class="function-btn" data-value="clear" data-i18n="clear">C</button>
-        <button class="operation-btn" data-value="+">+</button>
-      </div>
-      <div class="row">
-        <button class="function-btn" data-value="pi">π</button>
-        <button class="function-btn" data-value="e">e</button>
-        <button class="function-btn" data-value="rad_deg" data-i18n="rad">Rad</button>
-        <button class="equals-btn" data-value="equals">=</button>
+      
+      <div class="unit-content">
+        <div class="unit-input">
+          <input type="number" id="unitInput" placeholder="0">
+        </div>
+        <div class="unit-selection">
+          <select id="conversionType">
+            <option value="length" data-i18n="length">Length</option>
+            <option value="weight" data-i18n="weight">Weight</option>
+            <option value="temperature" data-i18n="temperature">Temperature</option>
+            <option value="area" data-i18n="area">Area</option>
+            <option value="volume" data-i18n="volume">Volume</option>
+            <option value="speed" data-i18n="speed">Speed</option>
+            <option value="time" data-i18n="time">Time</option>
+          </select>
+        </div>
+        <div class="unit-from-to">
+          <div class="unit-from">
+            <label data-i18n="from">From:</label>
+            <select id="fromUnit"></select>
+          </div>
+          <div class="swap-units" id="swapUnits">⇄</div>
+          <div class="unit-to">
+            <label data-i18n="to">To:</label>
+            <select id="toUnit"></select>
+          </div>
+        </div>
+        <div class="unit-result">
+          <div class="result-display">
+            <span id="conversionResult">0</span>
+          </div>
+          <div class="row">
+            <button class="copy-result" id="copyResult" data-i18n="copy_result">Copy</button>
+            <button class="send-to-calc" id="sendToCalc" data-i18n="send_to_calc">Send to Calculator</button>
+          </div>
+        </div>
       </div>
     </div>
     
@@ -88,6 +144,13 @@
               <option value="ja">日本語</option>
             </select>
           </div>
+        </div>
+        <div class="help-section">
+          <h4 data-i18n="tools">Tools</h4>
+          <ul>
+            <li><span class="key">Cmd+1 / Ctrl+1</span> <span data-i18n="switch_to_calculator">Switch to Calculator</span></li>
+            <li><span class="key">Cmd+2 / Ctrl+2</span> <span data-i18n="switch_to_unit_converter">Switch to Unit Converter</span></li>
+          </ul>
         </div>
         <div class="help-section">
           <h4 data-i18n="basic_operations">Basic Operations</h4>
@@ -135,6 +198,6 @@
   </div>
   <script src="i18n.js"></script>
   <script src="themes.js"></script>
-  <script src="popup.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html> 

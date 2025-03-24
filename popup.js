@@ -1,6 +1,163 @@
 // 全局变量
 let isRadMode = true; // 默认使用弧度模式
 let currentLanguage = 'en'; // 默认语言为英语
+let currentTool = 'calculator'; // 默认工具是计算器
+
+// 单位转换相关变量
+const unitConversions = {
+  length: {
+    units: ['mm', 'cm', 'm', 'km', 'in', 'ft', 'yd', 'mi'],
+    // 所有单位转换到基本单位 (米) 的因子
+    toBase: {
+      mm: 0.001,
+      cm: 0.01,
+      m: 1,
+      km: 1000,
+      in: 0.0254,
+      ft: 0.3048,
+      yd: 0.9144,
+      mi: 1609.344
+    },
+    // 名称翻译
+    nameKeys: {
+      mm: 'millimeter',
+      cm: 'centimeter',
+      m: 'meter',
+      km: 'kilometer',
+      in: 'inch',
+      ft: 'foot',
+      yd: 'yard',
+      mi: 'mile'
+    }
+  },
+  weight: {
+    units: ['mg', 'g', 'kg', 't', 'oz', 'lb', 'st'],
+    // 所有单位转换到基本单位 (克) 的因子
+    toBase: {
+      mg: 0.001,
+      g: 1,
+      kg: 1000,
+      t: 1000000,
+      oz: 28.3495,
+      lb: 453.592,
+      st: 6350.29
+    },
+    // 名称翻译
+    nameKeys: {
+      mg: 'milligram',
+      g: 'gram',
+      kg: 'kilogram',
+      t: 'ton',
+      oz: 'ounce',
+      lb: 'pound',
+      st: 'stone'
+    }
+  },
+  temperature: {
+    units: ['C', 'F', 'K'],
+    // 温度需要特殊处理，不使用简单乘法因子
+    // 名称翻译
+    nameKeys: {
+      C: 'celsius',
+      F: 'fahrenheit',
+      K: 'kelvin'
+    }
+  },
+  area: {
+    units: ['mm2', 'cm2', 'm2', 'km2', 'in2', 'ft2', 'ac', 'ha'],
+    // 所有单位转换到基本单位 (平方米) 的因子
+    toBase: {
+      mm2: 0.000001,
+      cm2: 0.0001,
+      m2: 1,
+      km2: 1000000,
+      in2: 0.00064516,
+      ft2: 0.092903,
+      ac: 4046.86,
+      ha: 10000
+    },
+    // 名称翻译
+    nameKeys: {
+      mm2: 'square_millimeter',
+      cm2: 'square_centimeter',
+      m2: 'square_meter',
+      km2: 'square_kilometer',
+      in2: 'square_inch',
+      ft2: 'square_foot',
+      ac: 'acre',
+      ha: 'hectare'
+    }
+  },
+  volume: {
+    units: ['ml', 'l', 'm3', 'gal', 'pt', 'qt', 'fl_oz', 'cup'],
+    // 所有单位转换到基本单位 (升) 的因子
+    toBase: {
+      ml: 0.001,
+      l: 1,
+      m3: 1000,
+      gal: 3.78541,
+      pt: 0.473176,
+      qt: 0.946353,
+      fl_oz: 0.0295735,
+      cup: 0.24
+    },
+    // 名称翻译
+    nameKeys: {
+      ml: 'milliliter',
+      l: 'liter',
+      m3: 'cubic_meter',
+      gal: 'gallon',
+      pt: 'pint',
+      qt: 'quart',
+      fl_oz: 'fluid_ounce',
+      cup: 'cup'
+    }
+  },
+  speed: {
+    units: ['m/s', 'km/h', 'mph', 'knot', 'ft/s'],
+    // 所有单位转换到基本单位 (米/秒) 的因子
+    toBase: {
+      'm/s': 1,
+      'km/h': 0.277778,
+      'mph': 0.44704,
+      'knot': 0.514444,
+      'ft/s': 0.3048
+    },
+    // 名称翻译
+    nameKeys: {
+      'm/s': 'meter_per_second',
+      'km/h': 'kilometer_per_hour',
+      'mph': 'mile_per_hour',
+      'knot': 'knot',
+      'ft/s': 'foot_per_second'
+    }
+  },
+  time: {
+    units: ['ms', 's', 'min', 'h', 'd', 'wk', 'mo', 'yr'],
+    // 所有单位转换到基本单位 (秒) 的因子
+    toBase: {
+      ms: 0.001,
+      s: 1,
+      min: 60,
+      h: 3600,
+      d: 86400,
+      wk: 604800,
+      mo: 2592000, // 平均月 (30天)
+      yr: 31536000 // 普通年 (365天)
+    },
+    // 名称翻译
+    nameKeys: {
+      ms: 'millisecond',
+      s: 'second',
+      min: 'minute',
+      h: 'hour',
+      d: 'day',
+      wk: 'week',
+      mo: 'month',
+      yr: 'year'
+    }
+  }
+};
 
 // 当DOM加载完成时初始化
 document.addEventListener('DOMContentLoaded', function() {
@@ -10,6 +167,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const keyboardHelp = document.getElementById('keyboardHelp');
   const closeHelp = document.getElementById('closeHelp');
   const localeSelect = document.getElementById('languageSelector');
+  
+  // 工具导航相关元素
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const toolCards = document.querySelectorAll('.tool-card');
+  
+  // 工具导航切换功能
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const targetTool = this.getAttribute('data-tool');
+      switchTool(targetTool);
+    });
+  });
   
   // 启用输入框的编辑功能
   display.removeAttribute('disabled');
@@ -130,6 +299,68 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 计算器加载完成后使输入框获得焦点
   display.focus();
+  
+  // 单位转换面板元素
+  const unitInput = document.getElementById('unitInput');
+  const conversionType = document.getElementById('conversionType');
+  const fromUnit = document.getElementById('fromUnit');
+  const toUnit = document.getElementById('toUnit');
+  const swapUnits = document.getElementById('swapUnits');
+  const copyResult = document.getElementById('copyResult');
+  const sendToCalc = document.getElementById('sendToCalc');
+  const conversionResult = document.getElementById('conversionResult');
+  
+  // 初始化单位转换下拉框
+  initConversionSelects('length');
+  
+  // 单位类型变更事件
+  conversionType.addEventListener('change', function() {
+    const type = this.value;
+    initConversionSelects(type);
+    performConversion();
+  });
+  
+  // 从/到单位变更事件
+  fromUnit.addEventListener('change', performConversion);
+  toUnit.addEventListener('change', performConversion);
+  
+  // 输入值变更事件
+  unitInput.addEventListener('input', performConversion);
+  
+  // 交换单位按钮事件
+  swapUnits.addEventListener('click', function() {
+    const fromValue = fromUnit.value;
+    fromUnit.value = toUnit.value;
+    toUnit.value = fromValue;
+    performConversion();
+  });
+  
+  // 复制结果按钮
+  copyResult.addEventListener('click', function() {
+    const resultText = conversionResult.textContent;
+    navigator.clipboard.writeText(resultText)
+      .then(() => {
+        // Visual feedback for copy success
+        copyResult.textContent = '✓';
+        setTimeout(() => {
+          copyResult.textContent = i18n.getTranslation('copy_result');
+        }, 1000);
+      })
+      .catch(err => {
+        console.error('Could not copy text: ', err);
+      });
+  });
+  
+  // 发送到计算器按钮
+  sendToCalc.addEventListener('click', function() {
+    const resultText = conversionResult.textContent;
+    display.value = resultText;
+    switchTool('calculator');
+    display.focus();
+  });
+  
+  // 计算器加载完成后使输入框获得焦点
+  display.focus();
 });
 
 // 更新界面所有文本
@@ -211,8 +442,24 @@ function handleKeyPress(e) {
     if (key === 'Escape') {
       document.getElementById('keyboardHelp').classList.remove('show');
       e.preventDefault();
-      display.focus(); // 关闭帮助面板后让输入框获取焦点
+      display.focus();
     }
+    return;
+  }
+  
+  // 工具切换快捷键
+  if (key === '1') {
+    switchTool('calculator');
+    e.preventDefault();
+    return;
+  } else if (key === '2') {
+    switchTool('unit-converter');
+    e.preventDefault();
+    return;
+  }
+  
+  // 如果当前不是计算器，不处理其他键盘事件
+  if (currentTool !== 'calculator') {
     return;
   }
   
@@ -616,4 +863,138 @@ function processAdditionSubtraction(expression) {
   // 求和，确保结果是数字
   const result = numbers.reduce((sum, num) => sum + num, 0);
   return result.toString();
+}
+
+// 初始化单位转换下拉框
+function initConversionSelects(type) {
+  const fromUnit = document.getElementById('fromUnit');
+  const toUnit = document.getElementById('toUnit');
+  
+  // 清空现有选项
+  fromUnit.innerHTML = '';
+  toUnit.innerHTML = '';
+  
+  // 获取该类型的单位
+  const units = unitConversions[type].units;
+  const nameKeys = unitConversions[type].nameKeys;
+  
+  // 填充选项
+  units.forEach((unit, index) => {
+    const fromOption = document.createElement('option');
+    fromOption.value = unit;
+    fromOption.textContent = unit + ' - ' + i18n.getTranslation(nameKeys[unit]);
+    fromUnit.appendChild(fromOption);
+    
+    const toOption = document.createElement('option');
+    toOption.value = unit;
+    toOption.textContent = unit + ' - ' + i18n.getTranslation(nameKeys[unit]);
+    toUnit.appendChild(toOption);
+    
+    // 默认选择第一个和第二个单位
+    if (index === 0) fromUnit.value = unit;
+    if (index === 1) toUnit.value = unit;
+  });
+  
+  // 执行首次转换
+  performConversion();
+}
+
+// 执行单位转换
+function performConversion() {
+  const conversionType = document.getElementById('conversionType').value;
+  const fromUnit = document.getElementById('fromUnit').value;
+  const toUnit = document.getElementById('toUnit').value;
+  const inputValue = parseFloat(document.getElementById('unitInput').value) || 0;
+  
+  let result;
+  
+  // 温度需要特殊处理
+  if (conversionType === 'temperature') {
+    result = convertTemperature(inputValue, fromUnit, toUnit);
+  } else {
+    // 使用乘法因子转换其他单位类型
+    const toBaseValue = inputValue * unitConversions[conversionType].toBase[fromUnit];
+    result = toBaseValue / unitConversions[conversionType].toBase[toUnit];
+  }
+  
+  // 显示结果 (最多保留10位小数)
+  const formattedResult = result.toFixed(10);
+  // 使用Number转换会自动去除尾随零
+  document.getElementById('conversionResult').textContent = Number(formattedResult).toString();
+}
+
+// 温度转换特殊处理
+function convertTemperature(value, fromUnit, toUnit) {
+  // 先转换到开尔文
+  let kelvin;
+  
+  switch (fromUnit) {
+    case 'C':
+      kelvin = value + 273.15;
+      break;
+    case 'F':
+      kelvin = (value + 459.67) * (5/9);
+      break;
+    case 'K':
+      kelvin = value;
+      break;
+  }
+  
+  // 从开尔文转换到目标单位
+  switch (toUnit) {
+    case 'C':
+      return kelvin - 273.15;
+    case 'F':
+      return kelvin * (9/5) - 459.67;
+    case 'K':
+      return kelvin;
+  }
+}
+
+// 切换工具函数
+function switchTool(toolName) {
+  // 更新当前工具
+  currentTool = toolName;
+  
+  // 更新导航按钮样式
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    if (btn.getAttribute('data-tool') === toolName) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  
+  // 显示对应的工具卡片
+  document.querySelectorAll('.tool-card').forEach(card => {
+    if (card.id === `${toolName}-card`) {
+      card.classList.add('active');
+    } else {
+      card.classList.remove('active');
+    }
+  });
+  
+  // 工具特定的处理
+  if (toolName === 'calculator') {
+    document.getElementById('result').focus();
+  } else if (toolName === 'unit-converter') {
+    const unitInput = document.getElementById('unitInput');
+    const display = document.getElementById('result');
+    
+    // 当切换到单位转换器时，如果计算器有值，则传递过来
+    if (display.value) {
+      try {
+        // 尝试解析为数字
+        const value = processExpression(display.value);
+        if (!isNaN(parseFloat(value))) {
+          unitInput.value = parseFloat(value);
+          performConversion();
+        }
+      } catch (e) {
+        // 无法解析为数字时，保持默认
+      }
+    }
+    
+    unitInput.focus();
+  }
 } 
