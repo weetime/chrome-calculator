@@ -32,7 +32,25 @@ const themes = {
     // 语言选择器
     selectBg: '#fff',
     selectBorder: 'rgba(0, 0, 0, 0.1)',
-    selectText: '#333'
+    selectText: '#333',
+    // 工具集相关
+    navBtnBg: 'linear-gradient(145deg, #f8f9fa, #dee0e3)',
+    navBtnText: '#333',
+    navBtnActiveBg: 'linear-gradient(145deg, #64c6e6, #4aa5c1)',
+    navBtnActiveText: 'white',
+    cardBg: 'rgba(255, 255, 255, 0.85)',
+    cardHeaderColor: '#4aa5c1',
+    // 单位转换相关
+    unitConversionBg: 'rgba(255, 255, 255, 0.97)',
+    unitHeaderBg: 'rgba(245, 247, 250, 0.8)',
+    unitDivider: 'rgba(0, 0, 0, 0.1)',
+    applyBtnBg: 'linear-gradient(145deg, #6bd66c, #4bb04c)',
+    applyBtnText: 'white',
+    swapBtnBg: 'linear-gradient(145deg, #64c6e6, #4aa5c1)',
+    swapBtnText: 'white',
+    resultDisplayBg: 'rgba(255, 255, 255, 0.9)',
+    copyBtnBg: 'linear-gradient(145deg, #f8f9fa, #dee0e3)',
+    copyBtnText: '#333'
   },
   
   // 暗色主题 (Dark Mode)
@@ -65,7 +83,25 @@ const themes = {
     // 语言选择器
     selectBg: '#2a2e33',
     selectBorder: 'rgba(255, 255, 255, 0.15)',
-    selectText: '#e0e0e0'
+    selectText: '#e0e0e0',
+    // 工具集相关
+    navBtnBg: 'linear-gradient(145deg, #3a4149, #2a2e33)',
+    navBtnText: '#e0e0e0',
+    navBtnActiveBg: 'linear-gradient(145deg, #0984e3, #0670c4)',
+    navBtnActiveText: 'white',
+    cardBg: 'rgba(35, 40, 45, 0.85)',
+    cardHeaderColor: '#0984e3',
+    // 单位转换相关
+    unitConversionBg: 'rgba(35, 40, 45, 0.97)',
+    unitHeaderBg: 'rgba(35, 40, 45, 0.95)',
+    unitDivider: 'rgba(255, 255, 255, 0.1)',
+    applyBtnBg: 'linear-gradient(145deg, #00b894, #00a382)',
+    applyBtnText: 'white',
+    swapBtnBg: 'linear-gradient(145deg, #0984e3, #0670c4)',
+    swapBtnText: 'white',
+    resultDisplayBg: 'rgba(35, 40, 45, 0.9)',
+    copyBtnBg: 'linear-gradient(145deg, #3a4149, #2a2e33)',
+    copyBtnText: '#e0e0e0'
   },
   
   // 蓝色主题 (Blue Ocean)
@@ -98,7 +134,25 @@ const themes = {
     // 语言选择器
     selectBg: '#fff',
     selectBorder: 'rgba(25, 72, 102, 0.15)',
-    selectText: '#194866'
+    selectText: '#194866',
+    // 工具集相关
+    navBtnBg: 'linear-gradient(145deg, #e0f4ff, #c0dcf0)',
+    navBtnText: '#194866',
+    navBtnActiveBg: 'linear-gradient(145deg, #40739e, #2c5282)',
+    navBtnActiveText: 'white',
+    cardBg: 'rgba(255, 255, 255, 0.85)',
+    cardHeaderColor: '#2980b9',
+    // 单位转换相关
+    unitConversionBg: 'rgba(255, 255, 255, 0.97)',
+    unitHeaderBg: 'rgba(222, 242, 255, 0.9)',
+    unitDivider: 'rgba(25, 72, 102, 0.1)',
+    applyBtnBg: 'linear-gradient(145deg, #0abde3, #0a98c2)',
+    applyBtnText: 'white',
+    swapBtnBg: 'linear-gradient(145deg, #40739e, #2c5282)',
+    swapBtnText: 'white',
+    resultDisplayBg: 'rgba(255, 255, 255, 0.9)',
+    copyBtnBg: 'linear-gradient(145deg, #e0f4ff, #c0dcf0)',
+    copyBtnText: '#194866'
   },
   
   // 粉色主题 (Pink Candy)
@@ -131,7 +185,25 @@ const themes = {
     // 语言选择器
     selectBg: '#fff',
     selectBorder: 'rgba(134, 67, 90, 0.15)',
-    selectText: '#86435a'
+    selectText: '#86435a',
+    // 工具集相关
+    navBtnBg: 'linear-gradient(145deg, #fff0f5, #fde2eb)',
+    navBtnText: '#86435a',
+    navBtnActiveBg: 'linear-gradient(145deg, #fd79a8, #e84393)',
+    navBtnActiveText: 'white',
+    cardBg: 'rgba(255, 255, 255, 0.85)',
+    cardHeaderColor: '#e84393',
+    // 单位转换相关
+    unitConversionBg: 'rgba(255, 255, 255, 0.97)',
+    unitHeaderBg: 'rgba(255, 240, 245, 0.9)',
+    unitDivider: 'rgba(134, 67, 90, 0.1)',
+    applyBtnBg: 'linear-gradient(145deg, #ff9ff3, #f368e0)',
+    applyBtnText: 'white',
+    swapBtnBg: 'linear-gradient(145deg, #fd79a8, #e84393)',
+    swapBtnText: 'white',
+    resultDisplayBg: 'rgba(255, 255, 255, 0.9)',
+    copyBtnBg: 'linear-gradient(145deg, #fff0f5, #fde2eb)',
+    copyBtnText: '#86435a'
   },
   
   // 绿色主题 (Forest Green)
@@ -164,7 +236,25 @@ const themes = {
     // 语言选择器
     selectBg: '#fff',
     selectBorder: 'rgba(44, 92, 60, 0.15)',
-    selectText: '#2c5c3c'
+    selectText: '#2c5c3c',
+    // 工具集相关
+    navBtnBg: 'linear-gradient(145deg, #e8f6ee, #d1e7da)',
+    navBtnText: '#2c5c3c',
+    navBtnActiveBg: 'linear-gradient(145deg, #6ab04c, #519e2d)',
+    navBtnActiveText: 'white',
+    cardBg: 'rgba(255, 255, 255, 0.85)',
+    cardHeaderColor: '#519e2d',
+    // 单位转换相关
+    unitConversionBg: 'rgba(255, 255, 255, 0.97)',
+    unitHeaderBg: 'rgba(232, 246, 238, 0.9)',
+    unitDivider: 'rgba(44, 92, 60, 0.1)',
+    applyBtnBg: 'linear-gradient(145deg, #38ada9, #2c8a87)',
+    applyBtnText: 'white',
+    swapBtnBg: 'linear-gradient(145deg, #6ab04c, #519e2d)',
+    swapBtnText: 'white',
+    resultDisplayBg: 'rgba(255, 255, 255, 0.9)',
+    copyBtnBg: 'linear-gradient(145deg, #e8f6ee, #d1e7da)',
+    copyBtnText: '#2c5c3c'
   },
   
   // 黑色火焰主题 (Black Flame)
@@ -197,7 +287,25 @@ const themes = {
     // 语言选择器
     selectBg: '#121212',
     selectBorder: 'rgba(255, 107, 8, 0.3)',
-    selectText: '#e0e0e0'
+    selectText: '#e0e0e0',
+    // 工具集相关
+    navBtnBg: 'linear-gradient(145deg, #1e1e1e, #121212)',
+    navBtnText: '#e0e0e0',
+    navBtnActiveBg: 'linear-gradient(145deg, #ff6b08, #ff4500)',
+    navBtnActiveText: 'white',
+    cardBg: 'rgba(18, 18, 18, 0.85)',
+    cardHeaderColor: '#ff6b08',
+    // 单位转换相关
+    unitConversionBg: 'rgba(18, 18, 18, 0.97)',
+    unitHeaderBg: 'rgba(18, 18, 18, 0.95)',
+    unitDivider: 'rgba(255, 255, 255, 0.1)',
+    applyBtnBg: 'linear-gradient(145deg, #ff4500, #ff0000)',
+    applyBtnText: 'white',
+    swapBtnBg: 'linear-gradient(145deg, #ff6b08, #ff4500)',
+    swapBtnText: 'white',
+    resultDisplayBg: 'rgba(18, 18, 18, 0.9)',
+    copyBtnBg: 'linear-gradient(145deg, #1e1e1e, #121212)',
+    copyBtnText: '#e0e0e0'
   }
 };
 
@@ -262,6 +370,26 @@ function applyTheme(themeName) {
   root.style.setProperty('--select-bg', theme.selectBg);
   root.style.setProperty('--select-border', theme.selectBorder);
   root.style.setProperty('--select-text', theme.selectText);
+  
+  // 工具集相关
+  root.style.setProperty('--nav-btn-bg', theme.navBtnBg);
+  root.style.setProperty('--nav-btn-text', theme.navBtnText);
+  root.style.setProperty('--nav-btn-active-bg', theme.navBtnActiveBg);
+  root.style.setProperty('--nav-btn-active-text', theme.navBtnActiveText);
+  root.style.setProperty('--card-bg', theme.cardBg);
+  root.style.setProperty('--card-header-color', theme.cardHeaderColor);
+  
+  // 单位转换相关
+  root.style.setProperty('--unit-conversion-bg', theme.unitConversionBg);
+  root.style.setProperty('--unit-header-bg', theme.unitHeaderBg);
+  root.style.setProperty('--unit-divider', theme.unitDivider);
+  root.style.setProperty('--apply-btn-bg', theme.applyBtnBg);
+  root.style.setProperty('--apply-btn-text', theme.applyBtnText);
+  root.style.setProperty('--swap-btn-bg', theme.swapBtnBg);
+  root.style.setProperty('--swap-btn-text', theme.swapBtnText);
+  root.style.setProperty('--result-display-bg', theme.resultDisplayBg);
+  root.style.setProperty('--copy-btn-bg', theme.copyBtnBg);
+  root.style.setProperty('--copy-btn-text', theme.copyBtnText);
   
   // 触发主题变更事件
   const event = new CustomEvent('themeChanged', { detail: { theme: themeName } });

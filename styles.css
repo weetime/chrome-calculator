@@ -602,7 +602,7 @@ button:active {
   appearance: none;
   box-sizing: border-box;
   cursor: pointer;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23333' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 15px center;
 }
@@ -633,6 +633,7 @@ button:active {
 
 .swap-units:hover {
   transform: scale(1.05);
+  filter: brightness(1.05);
 }
 
 .swap-units:active {
@@ -686,10 +687,20 @@ button:active {
   align-items: center;
   justify-content: center;
   flex: 1;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1),
+              inset 1px 1px 1px rgba(255, 255, 255, 0.3),
+              inset -1px -1px 1px rgba(0, 0, 0, 0.05);
 }
 
 .copy-result:hover {
   filter: brightness(1.05);
+}
+
+.copy-result:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1),
+              inset 1px 1px 1px rgba(255, 255, 255, 0.3),
+              inset -1px -1px 1px rgba(0, 0, 0, 0.05);
 }
 
 .send-to-calc {
@@ -705,8 +716,18 @@ button:active {
   align-items: center;
   justify-content: center;
   flex: 2;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1),
+              inset 1px 1px 1px rgba(255, 255, 255, 0.3),
+              inset -1px -1px 1px rgba(0, 0, 0, 0.05);
 }
 
 .send-to-calc:hover {
   filter: brightness(1.05);
+}
+
+.send-to-calc:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1),
+              inset 1px 1px 1px rgba(255, 255, 255, 0.3),
+              inset -1px -1px 1px rgba(0, 0, 0, 0.05);
 } 
